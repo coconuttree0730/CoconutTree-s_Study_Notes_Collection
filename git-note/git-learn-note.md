@@ -326,8 +326,6 @@
   ...
   ```
 
-
-
 ### git rm
 
 - 注意点：只有提交commit后的文件才可被 git rm 
@@ -338,4 +336,14 @@
   
   > 修改后，但是还没有提交的文件，是不可以直接被 ` git rm` 的...
 
-### 
+### 回退
+
+#### git checkout
+
+> git checkout HEAD -- <filename>
+
+#### git revert : 回退提交,可将删除的文件恢复
+
+> git revert 
+
+#### git reset
