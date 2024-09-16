@@ -338,12 +338,32 @@
 
 ### 回退
 
-#### git checkout
+#### git checkout  //[X]
 
 > git checkout HEAD -- <filename>
 
 #### git revert : 回退提交,可将删除的文件恢复
 
-> git revert 
+> git revert  <commit-ID>
 
-#### git reset
+#### git reset:
+
+> 修改HEAD指向，后commit，就是在但前HEAD的基础上'垒'
+
+##### --soft
+
+> 不影响工作区和暂存区()，只是回退版本，
+> 
+> - 此时，还是有未提交的，将此时，还是有未提交的，将工作区和暂存区`git add ; git commit` 就会将新提交接到当前回退的版本上形成新版本
+> 
+> 
+
+##### --hard
+
+> 工作区和暂存区也跟着回退到指定的版本
+
+##### --mixed(默认选项)
+
+> 将暂存区(add的内容) 指定到reset版本上(HEAD^,HEAD^^,...)
+
+##### 
