@@ -180,10 +180,9 @@
              index) and to automatically "rm" files in the index that have been removed from the working tree, and then perform the actual commit;
 
           5. by using the --interactive or --patch switches with the commit command to decide one by one which files or hunks should be part of the commit in
+```
 
-  ```
-
-  > 阅读 : next; b :periovus ; q : quit;
+> 阅读 : next; b :periovus ; q : quit;
 
 - git config 
 
