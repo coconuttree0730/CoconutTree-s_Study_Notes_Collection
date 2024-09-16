@@ -364,6 +364,16 @@
 
 ##### --mixed(默认选项)
 
-> 将暂存区(add的内容) 指定到reset版本上(HEAD^,HEAD^^,...)
+> 将暂存区(add的内容 ) 指定到reset版本上(HEAD^,HEAD^^,...)
 
 ##### 
+
+### git branch ： 分支
+
+> git branch <branch-name>
+
+- 切换分支：
+
+> git checkout <branch-name> //[X]：会将分支上还没有提交的内容清空....!!!所以不推荐
+> 
+> git switch <branch-name> //[switch更合适用于切换]
