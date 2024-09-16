@@ -384,5 +384,148 @@
 
 > main分支出去一个dev(  `git branch dev`) ,然后在 dev分支 进行 A文件的修改后提交，然后同时main也对A文件进行修改；这个时候，合并就会发生clash！！    
 
---test-merge-clash(main)
--- main here
+- branch 重命名
+
+    ![](/home/administrator/.config/marktext/images/2024-09-16-19-44-22-image.png)
+
+- branch 删除
+
+> git branch <mark>-d</mark> <branch-name>
+
+### stash:临时存储
+
+>  (这次commit不想将某个（已修改的）文件和其他文件一起提交)
+
+#### 保存：
+
+```shell
+git stash save 'message...'
+```
+
+#### 查看存了哪些：
+
+![](/home/administrator/.config/marktext/images/2024-09-16-19-58-13-image.png)
+
+#### 恢复：
+
+```shell
+❯ git stash apply stash@{0}
+```
+
+#### 对比进度：
+
+> 将临时存储的文件和
+
+![](/home/administrator/.config/marktext/images/2024-09-16-19-57-18-image.png)
+
+#### 删除临时存储的版本：
+
+![](/home/administrator/.config/marktext/images/2024-09-16-19-56-58-image.png)
+
+
+
+### log
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-00-04-image.png)
+
+
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-00-28-image.png)
+
+
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-01-01-image.png)
+
+
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-01-17-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-01-40-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-02-09-image.png)
+
+
+
+### alias：简化别名
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-03-19-image.png)
+
+
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-03-34-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-03-55-image.png)
+
+
+
+- 也可在profile或shrc文件内修改
+
+![](/home/administrator/.config/marktext/images/2024-09-16-20-05-17-image.png)
+
+
+
+
+
+### .gitignore: 忽略文件
+
+...
+
+
+
+### remote: 远程仓库
+
+仓库关联
+
+> git remote add <remote-name: origin> <github...的仓库的地址> 
+
+- 查看有哪些 远程下仓库：
+
+> git remote 
+
+- 查看有哪些 远程下仓库(详细信息)：-v
+
+> git remote -v
+
+
+
+
+
+### push : 推送
+
+> 本地  --- copy ---> 远程
+> 
+> git push -u <git remote add the name >   <branch-name>
+> 
+> - git push -u origin main(主分支)，当然也可以推送其他分支：
+>   
+>   - git push -u origin dev ...
+>   
+>   - git push -u origin test ...
+>   
+>   这样，在github或其他托管平台上就可以选择分支...    
+
+tips:
+
+- 查看本地分支：
+
+> git branch
+
+- 查看远程分支：
+
+> git branch -r
+
+- 查看全部分支(本地 + 远程)：
+
+> git branch -a
+
+    ![](/home/administrator/.config/marktext/images/2024-09-16-20-18-12-image.png)
+
+
+
+---
+
+### clone
+
+
+
+### pull
