@@ -203,8 +203,6 @@
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-13-44-38-image.png)
 
-
-
 ### git init
 
 - git init
@@ -212,8 +210,6 @@
 - cd ./.git
 
 ---
-
-
 
 - git status
 
@@ -266,7 +262,7 @@
 
 - 使用 git mv <a.txt> <b.txt>  //a --> b，避免了上述的`git rm ` +  `git add ` 才能实现的` mv ` 过程...
 
-
+![](/home/administrator/.config/marktext/images/2024-09-16-14-14-19-image.png)
 
 ### git diff
 
@@ -281,19 +277,17 @@
   +++ b/git-note/git-note.md
   @@ -180,10 +180,9 @@
                 index) and to automatically "rm" files in the index that have been removed from the working tree, and then perform the actual commit;
-   
+  
              5. by using the --interactive or --patch switches with the commit command to decide one by one which files or hunks should be part of the commit in
   +```
-   
+  
   -  ```
   -
   -  > 阅读 : next; b :periovus ; q : quit;
   +> 阅读 : next; b :periovus ; q : quit;
-   
+  
    - git config 
   ```
-  
-  
 
 - git diff  HEAD -- <file-name.xxx>
   
