@@ -392,7 +392,6 @@
 
 > main分支出去一个dev(  `git branch dev`) ,然后在 dev分支 进行 A文件的修改后提交，然后同时main也对A文件进行修改；这个时候，合并就会发生clash！！    
 
---(dev-branch)test:clash...
 =======
 >>>>>>> parent of 388b79b (on branch: dev commit... 02)
 =======
