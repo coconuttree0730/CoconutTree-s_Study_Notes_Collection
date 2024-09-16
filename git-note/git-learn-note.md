@@ -526,6 +526,16 @@ tips:
 
 ### clone
 
+> ![](/home/administrator/.config/marktext/images/2024-09-16-20-25-37-image.png)
+
+- 克隆可重命名项目名：
+
+> clone <remote> <project-name>
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-16-20-26-58-image.png)
+
+
+
 
 
 ### pull
