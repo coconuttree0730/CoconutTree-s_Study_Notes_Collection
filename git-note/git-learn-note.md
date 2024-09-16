@@ -239,7 +239,7 @@
 
 ### git mv
 
-> shell方式的mv git不能直接识别，如下：
+> shell方式的mv git不能直接识别，会出现原文件删除&新增未跟踪untracked文件如下：
 
 - <mark>git "rename" </mark>
 
@@ -325,3 +325,17 @@
   +     describe             基于一个现存的引用为一个对象起一个可读的名称
   ...
   ```
+
+
+
+### git rm
+
+- 注意点：只有提交commit后的文件才可被 git rm 
+
+- 如果想 将新修改的文件被 git  rm 时，<mark>需要新提交(git add <>;git commit...)，才可git rm</mark>
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-16-17-36-45-image.png)
+  
+  > 修改后，但是还没有提交的文件，是不可以直接被 ` git rm` 的...
+
+### 
