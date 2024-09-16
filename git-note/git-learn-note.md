@@ -211,7 +211,7 @@
 
 ---
 
-### git status
+- git status
 
 ```git
 ╭─    ~/my/learnSpace/Study_Notes_Collection/git-note    main +1 !1 ────────────────────────────────────────────────────────────── ✔    13:44:20  
@@ -229,19 +229,13 @@
   修改：     git-note.md
 ```
 
-### git add <file-name>
+- git add <file-name>
+  
+  - git add .  //add all files
 
-- git add .  //add all files
-
-### git commit -m 'commit message...'
+- git commit -m 'commit message...'
 
 - git diff <file-name>  // 比较出来的差异是 【工作区】和【暂存区】的比较
-
-> git add 和 git commit 可以合为一条git命令： 
-> 
-> ```shell
-> git commit -am 'xxxxx'
-> ```
 
 ### git mv
 
@@ -332,16 +326,6 @@
   ...
   ```
 
-
-
-- 分支间的比较：
-
-> <mark>git diff <main-branch>...<devbranch></mark>
-
-
-
-
-
 ### git rm
 
 - 注意点：只有提交commit后的文件才可被 git rm 
@@ -394,6 +378,7 @@
 > git checkout <branch-name> //[X]：会将分支上还没有提交的内容清空....!!!所以不推荐
 > 
 > git switch <branch-name> //[switch更合适用于切换]
+<<<<<<< HEAD
 
 - 分支间比较内容区别：diff
 
@@ -410,3 +395,5 @@
 --(dev-branch)test:clash...
 =======
 >>>>>>> parent of 388b79b (on branch: dev commit... 02)
+=======
+>>>>>>> parent of e99d284 (test | fix clash)
