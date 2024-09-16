@@ -355,8 +355,6 @@
 > 不影响工作区和暂存区()，只是回退版本，
 > 
 > - 此时，还是有未提交的，将此时，还是有未提交的，将工作区和暂存区`git add ; git commit` 就会将新提交接到当前回退的版本上形成新版本
-> 
-> 
 
 ##### --hard
 
@@ -365,7 +363,6 @@
 ##### --mixed(默认选项)
 
 > 将暂存区(add的内容) 指定到reset版本上(HEAD^,HEAD^^,...)
-
 
 ### git branch ： 分支
 
@@ -383,9 +380,9 @@
 > 
 > git diff <branch1> <branch2> <filename> //对比分支间某个文件的区别
 
-
-
 #### 冲突的产生：
 
 > main分支出去一个dev(  `git branch dev`) ,然后在 dev分支 进行 A文件的修改后提交，然后同时main也对A文件进行修改；这个时候，合并就会发生clash！！    
 
+--test-merge-clash(main)
+--start: dev-branch-add:hi~ here...
