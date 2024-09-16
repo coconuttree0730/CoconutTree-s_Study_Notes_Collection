@@ -324,29 +324,7 @@
   +     commit               记录变更到仓库
   +     describe             基于一个现存的引用为一个对象起一个可读的名称
   ...
-  ```
-<<<<<<< HEAD
+test... 
+look...
 
-### git rm
-
-- 注意点：只有提交commit后的文件才可被 git rm 
-
-- 如果想 将新修改的文件被 git  rm 时，<mark>需要新提交(git add <>;git commit...)，才可git rm</mark>
-  
-  ![](/home/administrator/.config/marktext/images/2024-09-16-17-36-45-image.png)
-  
-  > 修改后，但是还没有提交的文件，是不可以直接被 ` git rm` 的...
-
-### 回退
-
-#### git checkout
-
-> git checkout HEAD -- <filename>
-
-#### git revert : 回退提交,可将删除的文件恢复
-
-> git revert 
-
-#### git reset
-=======
->>>>>>> parent of b3bb9bb (test | git rm test is finish)
+```
