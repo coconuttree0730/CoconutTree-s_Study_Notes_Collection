@@ -2,6 +2,8 @@
 
 ### basic use:
 
+### git help
+
 - git help -a :全部命令...
   
   ```git
@@ -137,16 +139,13 @@
      unpack-file          用 blob 数据对象的内容创建一个临时文件
      var                  显示一个Git逻辑变量
      verify-pack          校验打包的Git存仓文件
-  
-  //......
   ```
 
-```
 - git help -g :手册
 
 - git help <git-commands>
 
-  ```git
+```git
       GIT-COMMIT(1)                                                            Git Manual                                                            GIT-COMMIT(1)
 
   NAME
@@ -184,6 +183,8 @@
 
 > 阅读 : next; b :periovus ; q : quit;
 
+### git config
+
 - git config 
 
 - git config --global  user.name <xxx>
@@ -202,9 +203,17 @@
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-13-44-38-image.png)
 
+
+
+### git init
+
 - git init
 
 - cd ./.git
+
+---
+
+
 
 - git status
 
@@ -232,6 +241,10 @@
 
 - git diff <file-name>  // 比较出来的差异是 【工作区】和【暂存区】的比较
 
+### git mv
+
+> shell方式的mv git不能直接识别，如下：
+
 - <mark>git "rename" </mark>
 
 - 1. mv style.css theme.css
@@ -250,3 +263,71 @@
 ![](/home/administrator/.config/marktext/images/2024-09-16-13-50-33-image.png)
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-13-53-36-image.png)
+
+- 使用 git mv <a.txt> <b.txt>  //a --> b，避免了上述的`git rm ` +  `git add ` 才能实现的` mv ` 过程...
+
+
+
+### git diff
+
+- git diff <file-name.xxx>
+  
+  > 当前文件(workspace)和(storespace)的比较
+  
+  ```git
+  diff --git a/git-note/git-note.md b/git-note/git-note.md
+  index 5ab0758..d911f76 100644
+  --- a/git-note/git-note.md
+  +++ b/git-note/git-note.md
+  @@ -180,10 +180,9 @@
+                index) and to automatically "rm" files in the index that have been removed from the working tree, and then perform the actual commit;
+   
+             5. by using the --interactive or --patch switches with the commit command to decide one by one which files or hunks should be part of the commit in
+  +```
+   
+  -  ```
+  -
+  -  > 阅读 : next; b :periovus ; q : quit;
+  +> 阅读 : next; b :periovus ; q : quit;
+   
+   - git config 
+  ```
+  
+  
+
+- git diff  HEAD -- <file-name.xxx>
+  
+  > 当前文件(workspace)和本地仓库的比较
+  
+  ```git
+  diff --git a/git-note/git-note.md b/git-note/git-note.md
+  new file mode 100644
+  index 0000000..d911f76
+  --- /dev/null
+  +++ b/git-note/git-note.md
+  @@ -0,0 +1,252 @@
+  +# git-uer-guide
+  +
+  +### basic use:
+  +
+  +- git help -a :全部命令...
+  +  
+  +  ```git
+  +  执行　'git help <command>' 来了解特定子命令
+  +  
+  +  主要的上层命令
+  +     add                  添加文件内容至索引
+  +     am                   应用邮箱格式的系列补丁
+  +     archive              基于一个指定的树创建文件存档
+  +     bisect               通过二分查找定位引入 bug 的提交
+  +     branch               列出、创建或删除分支
+  +     bundle               通过归档移动对象和引用
+  +     checkout             切换分支或恢复工作区文件
+  +     cherry-pick          应用一些现存提交引入的修改
+  +     citool               git-commit 的图形替代界面
+  +     clean                从工作区中删除未跟踪文件
+  +     clone                克隆仓库到一个新目录
+  +     commit               记录变更到仓库
+  +     describe             基于一个现存的引用为一个对象起一个可读的名称
+  ...
+  ```
