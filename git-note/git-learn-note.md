@@ -366,8 +366,6 @@
 
 > 将暂存区(add的内容) 指定到reset版本上(HEAD^,HEAD^^,...)
 
-##### 
-<<<<<<< HEAD
 
 ### git branch ： 分支
 
@@ -378,7 +376,6 @@
 > git checkout <branch-name> //[X]：会将分支上还没有提交的内容清空....!!!所以不推荐
 > 
 > git switch <branch-name> //[switch更合适用于切换]
-<<<<<<< HEAD
 
 - 分支间比较内容区别：diff
 
@@ -392,7 +389,3 @@
 
 > main分支出去一个dev(  `git branch dev`) ,然后在 dev分支 进行 A文件的修改后提交，然后同时main也对A文件进行修改；这个时候，合并就会发生clash！！    
 
-=======
->>>>>>> parent of 388b79b (on branch: dev commit... 02)
-=======
->>>>>>> parent of e99d284 (test | fix clash)
