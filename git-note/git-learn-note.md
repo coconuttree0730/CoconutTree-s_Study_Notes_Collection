@@ -211,7 +211,7 @@
 
 ---
 
-- git status
+### git status
 
 ```git
 ╭─    ~/my/learnSpace/Study_Notes_Collection/git-note    main +1 !1 ────────────────────────────────────────────────────────────── ✔    13:44:20  
@@ -229,13 +229,19 @@
   修改：     git-note.md
 ```
 
-- git add <file-name>
-  
-  - git add .  //add all files
+### git add <file-name>
 
-- git commit -m 'commit message...'
+- git add .  //add all files
+
+### git commit -m 'commit message...'
 
 - git diff <file-name>  // 比较出来的差异是 【工作区】和【暂存区】的比较
+
+> git add 和 git commit 可以合为一条git命令： 
+> 
+> ```shell
+> git commit -am 'xxxxx'
+> ```
 
 ### git mv
 
@@ -326,6 +332,16 @@
   ...
   ```
 
+
+
+- 分支间的比较：
+
+> <mark>git diff <main-branch>...<devbranch></mark>
+
+
+
+
+
 ### git rm
 
 - 注意点：只有提交commit后的文件才可被 git rm 
@@ -377,3 +393,17 @@
 > git checkout <branch-name> //[X]：会将分支上还没有提交的内容清空....!!!所以不推荐
 > 
 > git switch <branch-name> //[switch更合适用于切换]
+
+- 分支间比较内容区别：diff
+
+> git diff <branch1> <branch2>  //对比分支间的<mark>全部文件的区别</mark>
+> 
+> git diff <branch1> <branch2> <filename> //对比分支间某个文件的区别
+
+
+
+#### 冲突的产生：
+
+> main分支出去一个dev(  `git branch dev`) ,然后在 dev分支 进行 A文件的修改后提交，然后同时main也对A文件进行修改；这个时候，合并就会发生clash！！    
+
+--(dev-branch)test:clash...
