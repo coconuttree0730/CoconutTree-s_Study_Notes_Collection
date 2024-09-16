@@ -139,74 +139,91 @@
      verify-pack          校验打包的Git存仓文件
   
   //......
-  
-  
   ```
 
+```
 - git help -g :手册
-  
-  - git help <git-commands>
-    
-    ```git
-        GIT-COMMIT(1)                                                            Git Manual                                                            GIT-COMMIT(1)
-    
-    NAME
-           git-commit - Record changes to the repository
-    
-    SYNOPSIS
-           git commit [-a | --interactive | --patch] [-s] [-v] [-u<mode>] [--amend]
-                      [--dry-run] [(-c | -C | --squash) <commit> | --fixup [(amend|reword):]<commit>)]
-                      [-F <file> | -m <msg>] [--reset-author] [--allow-empty]
-                      [--allow-empty-message] [--no-verify] [-e] [--author=<author>]
-                      [--date=<date>] [--cleanup=<mode>] [--[no-]status]
-                      [-i | -o] [--pathspec-from-file=<file> [--pathspec-file-nul]]
-                      [(--trailer <token>[(=|:)<value>])...] [-S[<keyid>]]
-                      [--] [<pathspec>...]
-    
-    DESCRIPTION
-           Create a new commit containing the current contents of the index and the given log message describing the changes. The new commit is a direct child
-           of HEAD, usually the tip of the current branch, and the branch is updated to point to it (unless no branch is associated with the working tree, in
-           which case HEAD is "detached" as described in git-checkout(1)).
-    
-           The content to be committed can be specified in several ways:
-    
-            1. by using git-add(1) to incrementally "add" changes to the index before using the commit command (Note: even modified files must be "added");
-    
-            2. by using git-rm(1) to remove files from the working tree and the index, again before using the commit command;
-    
-            3. by listing files as arguments to the commit command (without --interactive or --patch switch), in which case the commit will ignore changes
-               staged in the index, and instead record the current content of the listed files (which must already be known to Git);
-    
-            4. by using the -a switch with the commit command to automatically "add" changes from all known files (i.e. all files that are already listed in the
-               index) and to automatically "rm" files in the index that have been removed from the working tree, and then perform the actual commit;
-    
-            5. by using the --interactive or --patch switches with the commit command to decide one by one which files or hunks should be part of the commit in
-    
-    ```
-    
-    > 阅读 : next; b :periovus ; q : quit;
+
+- git help <git-commands>
+
+  ```git
+      GIT-COMMIT(1)                                                            Git Manual                                                            GIT-COMMIT(1)
+
+  NAME
+         git-commit - Record changes to the repository
+
+  SYNOPSIS
+         git commit [-a | --interactive | --patch] [-s] [-v] [-u<mode>] [--amend]
+                    [--dry-run] [(-c | -C | --squash) <commit> | --fixup [(amend|reword):]<commit>)]
+                    [-F <file> | -m <msg>] [--reset-author] [--allow-empty]
+                    [--allow-empty-message] [--no-verify] [-e] [--author=<author>]
+                    [--date=<date>] [--cleanup=<mode>] [--[no-]status]
+                    [-i | -o] [--pathspec-from-file=<file> [--pathspec-file-nul]]
+                    [(--trailer <token>[(=|:)<value>])...] [-S[<keyid>]]
+                    [--] [<pathspec>...]
+
+  DESCRIPTION
+         Create a new commit containing the current contents of the index and the given log message describing the changes. The new commit is a direct child
+         of HEAD, usually the tip of the current branch, and the branch is updated to point to it (unless no branch is associated with the working tree, in
+         which case HEAD is "detached" as described in git-checkout(1)).
+
+         The content to be committed can be specified in several ways:
+
+          1. by using git-add(1) to incrementally "add" changes to the index before using the commit command (Note: even modified files must be "added");
+
+          2. by using git-rm(1) to remove files from the working tree and the index, again before using the commit command;
+
+          3. by listing files as arguments to the commit command (without --interactive or --patch switch), in which case the commit will ignore changes
+             staged in the index, and instead record the current content of the listed files (which must already be known to Git);
+
+          4. by using the -a switch with the commit command to automatically "add" changes from all known files (i.e. all files that are already listed in the
+             index) and to automatically "rm" files in the index that have been removed from the working tree, and then perform the actual commit;
+
+          5. by using the --interactive or --patch switches with the commit command to decide one by one which files or hunks should be part of the commit in
+
+  ```
+
+  > 阅读 : next; b :periovus ; q : quit;
 
 - git config 
-  
-  - git config --global  user.name <xxx>
-  
-  - git config --global  user.email <xxx>
-  
-  - git config --list
-  
-  - git config --help
-  
-  - git config --unset --global  user.name   ：'delete user.name-config...'
-  
-  - git config --global color.ui true
-  
-  - cat ~/.gitconfig  // 查看已经(config)配置的内容
+
+- git config --global  user.name <xxx>
+
+- git config --global  user.email <xxx>
+
+- git config --list
+
+- git config --help
+
+- git config --unset --global  user.name   ：'delete user.name-config...'
+
+- git config --global color.ui true
+
+- cat ~/.gitconfig  // 查看已经(config)配置的内容
+
+![](/home/administrator/.config/marktext/images/2024-09-16-13-44-38-image.png)
 
 - git init
-  
-  - cd ./.git
+
+- cd ./.git
 
 - git status
+
+```git
+╭─    ~/my/learnSpace/Study_Notes_Collection/git-note    main +1 !1 ────────────────────────────────────────────────────────────── ✔    13:44:20  
+╰─ git status       
+位于分支 main
+您的分支与上游分支 'origin/main' 一致。
+
+要提交的变更：
+（使用 "git restore --staged <文件>..." 以取消暂存）
+  修改：     git-note.md
+
+尚未暂存以备提交的变更：
+（使用 "git add <文件>..." 更新要提交的内容）
+（使用 "git restore <文件>..." 丢弃工作区的改动）
+  修改：     git-note.md
+```
 
 - git add <file-name>
   
@@ -216,14 +233,21 @@
 
 - git diff <file-name>  // 比较出来的差异是 【工作区】和【暂存区】的比较
 
-- git "rename" 
-  
-  - 1. mv style.css theme.css
-  - 2. git status
-       message: rm style.css
-       
-           untracked theme.css
-  - 3. git rm sysle.css
-  - 4. git add theme.css
-       message: 
-          rename: style.css -> theme.css
+- <mark>git "rename" </mark>
+
+- 1. mv style.css theme.css
+
+- 2. git status
+     message: rm style.css
+
+![](/home/administrator/.config/marktext/images/2024-09-16-13-49-19-image.png)
+
+- 3. git rm sysle.css
+
+- 4. git add theme.css
+     message: 
+        rename: style.css -> theme.css
+
+![](/home/administrator/.config/marktext/images/2024-09-16-13-50-33-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-16-13-53-36-image.png)
