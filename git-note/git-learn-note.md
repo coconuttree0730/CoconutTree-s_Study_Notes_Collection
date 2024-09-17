@@ -422,21 +422,13 @@ git stash save 'message...'
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-19-56-58-image.png)
 
-
-
 ### log
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-00-04-image.png)
 
-
-
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-00-28-image.png)
 
-
-
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-01-01-image.png)
-
-
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-01-17-image.png)
 
@@ -444,33 +436,21 @@ git stash save 'message...'
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-02-09-image.png)
 
-
-
 ### alias：简化别名
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-03-19-image.png)
-
-
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-03-34-image.png)
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-03-55-image.png)
 
-
-
 - 也可在profile或shrc文件内修改
 
 ![](/home/administrator/.config/marktext/images/2024-09-16-20-05-17-image.png)
 
-
-
-
-
 ### .gitignore: 忽略文件
 
 ...
-
-
 
 ### remote: 远程仓库
 
@@ -485,10 +465,6 @@ git stash save 'message...'
 - 查看有哪些 远程下仓库(详细信息)：-v
 
 > git remote -v
-
-
-
-
 
 ### push : 推送
 
@@ -520,9 +496,13 @@ tips:
 
     ![](/home/administrator/.config/marktext/images/2024-09-16-20-18-12-image.png)
 
-
-
 ---
+
+- zhanshan把项目clone下来，然后修改又push上去
+
+- lishi 是不知道可以拉取zhanshan的push之后的代码（使用fetch），也可能是zhangshan还没push的时候拉取下来的（根据不同场景可以有不同的做法）
+
+
 
 ### clone
 
@@ -534,8 +514,62 @@ tips:
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-16-20-26-58-image.png)
 
-
-
-
-
 ### pull
+
+
+
+### fetch
+
+> 当远程仓库 有其他人push更新时，使用fetch就可以拉取最新的到自己的本地仓库
+> 
+> - 当fetch拉取下来之后，使用    `git status ` 就可发现有新的远程仓库的更新
+> 
+> - 使用 `git merge`       将        `git fetch` 下来的进行合并(<mark>合并的是远程的分支</mark>：origin/master)到自己的本地库...
+> 
+> - git merge origin/main //将远程更新合并到自己的仓库
+
+
+
+
+
+### fork（github操作）
+
+![](/home/administrator/.config/marktext/images/2024-09-16-21-42-23-image.png)
+
+> 相当于copy一份（远程项目AAA）到自己的远程仓库（BBB）
+> 
+> 这个时候，就可以在（BBB）下，使用 ` git clone` 将BBB的项目克隆...
+> 
+> - fork出来的项目，和别人不使用一个“箱子”,其他人(使用AAA远程仓库的人)不会push上去影响你的代码。   
+
+
+
+
+
+### README.md
+
+> - 放在项目的根目录
+> 
+> - 通常写着：项目介绍and使用说明(使用步骤)
+
+
+
+
+
+
+
+- github使用：
+  
+  - .git 的方式，setting添加ssh公钥即可
+  
+  - http的方式需要使用 用户名and密码登录
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-16-21-53-38-image.png)
+
+- fork
+
+- <mark>pull request:</mark>
+
+       ![](/home/administrator/.config/marktext/images/2024-09-16-21-59-37-image.png)
+
+> pull requessts : 可将fork出来的项目修改完善后，请求pull回去（需要那边的人同意，才能merge进去）
