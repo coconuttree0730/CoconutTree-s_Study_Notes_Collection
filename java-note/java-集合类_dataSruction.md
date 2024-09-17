@@ -368,11 +368,15 @@ List<Integer> readOnly = List.of(343,545,434,3545,65,7,65);
 
 ![](/home/administrator/.config/marktext/images/2024-09-11-19-46-09-image.png)
 
-- 无参： List<Integer> listInt = new ArrayList<>();
+- 无参： List<Integer> listInt = new ArrayList<><mark>();</mark>
 
-- 有参1：List<String> listStr = new ArrayList<>(1500); //预估，可避免多次扩容影响性能
+- 有参1：List<String> listStr = new ArrayList<><mark>(1500);</mark> //预估，可避免多次扩容影响性能
 
-- 有参2： List<Integer> listarr = new ArrayList<>(Arrays.asList( arr ));
+- 有参2： List<Integer> listarr = new ArrayList<><mark>(Arrays.asList( arr ))</mark>;
+  
+  > Integer[] arr = new Integer[10];
+  > 
+  > .........
 
 ###### 概念：
 
@@ -439,8 +443,6 @@ list.add(2,"TWO");
 //listName : one two TWO 
 ```
 
-
-
 ###### remove(index);
 
 ![](/home/administrator/.config/marktext/images/2024-09-13-21-58-43-image.png)
@@ -455,11 +457,64 @@ into:
 > 
 > - 效率要比使用java写的Arrays.copyOf()效率要高...
 
+#### Vector
+
+> (是线程安全的，使用<mark>synchronized</mark>) , 早期的集合类，效率比较低，现在很少使用这个(它的继承类 stack类也一样,很少使用); 现在有新手段实现该形式的线程安全
+
+- 声明and使用和ArrayLlist差不多吧？ 都是属于有序集合的一种...  ！ 底层也是数组...
+  
+  ```java
+  List<String> list = new Vector<>();
+  list.add("zhanshan");
+  list.add("lishi");
+  list.add("wangwu");
+  ```
+  
+  -默认初始化：10
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-17-22-31-53-image.png)
+  
+  > so? add()..超过10个就要开始扩容了，那Vector的扩容方式是什么？    
+  > 
+  > ![](/home/administrator/.config/marktext/images/2024-09-17-22-37-52-image.png)
+  > 
+  > - 结论：两倍增长
+  >   
+  >   ![](/home/administrator/.config/marktext/images/2024-09-17-22-40-17-image.png)
+
+##### stack
+
+> 不常用  FILO ：first int last out 
+
 
 
 #### LinkedList
 
- 
+> - 双向链表：（不是环形）；
+> 
+> - linkedlist 初始化是个nul（没有创建结点：`size = 0`）；
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-17-23-10-26-image.png)
+> 
+> - linkedllist的数据结构：
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-17-23-01-10-image.png)
+> 
+> - first ==> 向回指；
+> 
+> - last ==> 向后指；
+>   
+>   - Node 结点： 【  previous  | data | next】
+>   
+>   ![](/home/administrator/.config/marktext/images/2024-09-17-23-08-50-image.png)
+
+- 基本操作：
+
+![](/home/administrator/.config/marktext/images/2024-09-17-23-00-02-image.png)
+
+> add();//默认是append(尾部插入)
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-17-23-19-26-image.png)
 
 ## Map(**) ：两个方式存储
 
