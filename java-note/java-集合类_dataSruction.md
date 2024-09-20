@@ -1,4 +1,4 @@
-# JAVA-集合工具类
+# JAVA-集合类
 
 > java将数据结构 实现了的工具
 > 
@@ -10,7 +10,7 @@
 
 ![](/home/administrator/.config/marktext/images/2024-08-27-00-54-31-image.png)
 
-## 集合（Collection）: 单个方式存储
+## Collection: 单个方式存储（图解）
 
 > - 有序集合：有下标索引 or 按大小顺序存取 (满足其一即可是有序队列)
 >   
@@ -71,9 +71,13 @@
     
     > ![](/home/administrator/.config/marktext/images/2024-09-03-22-14-40-image.png) : 执行完.next();光标就往下“指针”移动一位
 
-### SequencedCollection
+---
+
+### Sequenced-Collection
 
  ![](/home/administrator/.config/marktext/images/2024-08-27-23-46-00-image.png)
+
+---
 
 #### List
 
@@ -358,7 +362,7 @@ List<Integer> readOnly = List.of(343,545,434,3545,65,7,65);
   
   > 获取当前“指针”的下标（从0开始）
 
-#### ArrayList
+##### ArrayList
 
 - size: 数据结构内部存入的元素个数
 
@@ -455,13 +459,20 @@ into:
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-13-22-00-23-image.png)
 > 
-> - 效率要比使用java写的Arrays.copyOf()效率要高...
+> - 效率要比使用java写的Arrays.<mark>copyOf</mark>()效率要高...
+>   
+>   >   [][][][][][]   
+>   >   | | | | |
+>   > 
+>   >   V V V V V
+>   > 
+>   >   [][][][][][][][][][][]
 
-#### Vector
+##### Vector
 
-> (是线程安全的，使用<mark>synchronized</mark>) , 早期的集合类，效率比较低，现在很少使用这个(它的继承类 stack类也一样,很少使用); 现在有新手段实现该形式的线程安全
+> (是线程安全的，使用<mark>synchronized</mark>) , 早期的集合类，<mark>效率比较低</mark>，<mark>现在很少使用</mark>这个(它的继承类 stack类也一样,很少使用); 现在有新手段实现该形式的线程安全
 
-- 声明and使用和ArrayLlist差不多吧？ 都是属于有序集合的一种...  ！ 底层也是数组...
+- Stack（声明 和 使用）和ArrayLlist差不多吧？ 都是属于有序集合的一种...  ！ 底层也是数组...
   
   ```java
   List<String> list = new Vector<>();
@@ -470,7 +481,7 @@ into:
   list.add("wangwu");
   ```
   
-  -默认初始化：10
+  -默认初始化：<mark>10</mark>
   
   ![](/home/administrator/.config/marktext/images/2024-09-17-22-31-53-image.png)
   
@@ -478,17 +489,39 @@ into:
   > 
   > ![](/home/administrator/.config/marktext/images/2024-09-17-22-37-52-image.png)
   > 
-  > - 结论：两倍增长
+  > - 结论：<mark>两倍增长</mark>
   >   
   >   ![](/home/administrator/.config/marktext/images/2024-09-17-22-40-17-image.png)
 
-##### stack
+###### stack
 
-> 不常用  FILO ：first int last out 
+> <mark>不常用（因为是基于 Vector 实现的，是线程安全的，慢...)</mark> , FILO ：first int last out 
+> 
+> - stack 可使用 ：数组 和 链表实现
+> 
+> - java的Stack使用的是 **数组**实现...   (其实很多场景都是使用的数组,<mark>检索效率高</mark>)
+> 
+> - **java的LinkedList  可模拟实现 Stack** (底层：链表：linkedllist也是实现了Deque接口)
+> 
+> - 使用 <mark>deque 接口</mark> 也实现 可stack的（<mark>自定义DIY ，ArrayDeque</mark>）,底层：数组模拟
+>   
+>   ![](/home/administrator/.config/marktext/images/2024-09-20-21-12-27-image.png)
+> 
+> >  实现栈的实际类：
+> > 
+> > - Stack
+> > 
+> > - ArrayDeque
+> > 
+> > - LinkedList
+> > 
+> > 实现队列的实现类：
+> > 
+> > - ArrayDeque（双端队列）
+> > 
+> > - LinkedList (双端队列 )
 
-
-
-#### LinkedList
+##### LinkedList
 
 > - 双向链表：（不是环形）；
 > 
@@ -515,11 +548,166 @@ into:
 > add();//默认是append(尾部插入)
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-17-23-19-26-image.png)
+> 
+> - add( index,value);  //选择插入位置：insert-node(插入新结点)
+>   
+>   - add()是 使用了方法重载，有尾插入的add(value);
+> 
+> - set(index ,value); //修改链表中结点 ： update-node(修改结点)
+> 
+> - remove(index); //删除结点
+> 
+> - get(index) ; //获取指定结点的值(只获取不修改)
+
+##### ArrayDeque(实现栈Stack)
+
+![](/home/administrator/.config/marktext/images/2024-09-20-21-24-38-image.png)
+
+老旧现在不使用了的栈stack：
+
+![](/home/administrator/.config/marktext/images/2024-09-20-21-25-44-image.png)
+
+arrayDeque:
+
+```java
+ArrayDeque<Integer> arrDequeStack = new ArrayDeque<>();
+arrDequeStack.push(xxx);
+arrDequeStack.pop();
+```
+
+![](/home/administrator/.config/marktext/images/2024-09-20-21-26-20-image.png)
+
+> LinkedList也有 push 和 pop... 我还以为是要使用add 和 remove模拟呢...ahaha
+> 
+> ```java
+> LinkedList<Integer> linkedList = new LinkedList<>();
+> linekdlist.push();
+> linkedlist.pop();
+> ```
+
+##### ArrayDeque(有双端队列)  --> 使用 Queue接口实现的
+
+- > LinkedList(也可调用实现双端队列)
+  > 
+  > ![](/home/administrator/.config/marktext/images/2024-09-20-22-12-40-image.png)
+  > 
+  > ![](/home/administrator/.config/marktext/images/2024-09-20-22-29-24-image.png)
+  > 
+  > 什么叫双端队列？
+  > 
+  >  ![](/home/administrator/.config/marktext/images/2024-09-20-22-30-00-image.png)
+  > 
+  > 答： 两端都可实现 队列（出队如队）
+  > - arrayDeque底层是使用<mark>环形数组</mark>实现的（<mark>循环数组</mark>）
+  >   
+  >   - ![](/home/administrator/.config/marktext/images/2024-09-20-22-47-53-image.png)  
+  >   
+  >   - ![](/home/administrator/.config/marktext/images/2024-09-20-22-48-26-image.png)
+  > 
+  >       
+  > 
+  > ```
+  > --[]--[]--[]--[]--[]--[]--[]--[]--[]---
+  >   |                                |
+  >   V                                V
+  >  offer(进)                         poll（出）
+  > ```
+  > 
+  > - LinkedList 也能实现双端队列(双向链表，本就是可往前和往后)
+
+###### ArrayDequ 队列的使用：
+
+```java
+Queue<Integer>  queue = new ArrayDeque<>();
+queue.offer(1);
+queue.offer(2);
+...
+queue.poll();
+queue.poll();
+```
+
+###### LinkedList 队列的使用：
+
+```java
+Queue<Integer> queue_1 = new LinkedList<>();
+queue_1.offer(1);
+queue_1.offer(2);
+...
+```
+
+###### arrayDeque 双端队列使用
+
+```java
+import java.util.*;
+
+/*                        first               last
+    .offerLast()          head_A ----------> end_B
+    .offerFirst()       .offerFirst          .pollLast
+
+    .pollLast()
+    .pollFist()
+
+*/
+
+public class ArrayQueue{
+
+    public static void main(String[] args){
+        Deque<Integer> q = new ArrayDeque<>();
+        q.offerLast(1);//队尾进队
+        q.offerLast(2);
+        q.offerLast(3);
+        System.out.println(q.pollFirst());//队头出队
+        System.out.println(q.pollFirst());
+        System.out.println(q.pollFirst());
+
+        q.offerFirst(4);//队头进队
+        q.offerFirst(5);
+        q.offerFirst(6);
+        System.out.println(q.pollLast());//队尾出队
+        System.out.println(q.pollLast());
+        System.out.println(q.pollLast());
+    }
+}
+```
+
+###### linkedList 双端队列使用：
+
+> 用法和 arrayDeque一样
+
+```java
+import java.util.*;
+public class ArrayQueue{
+
+    public static void main(String[] args){
+        Deque<Integer> q = new LinkedList<>();
+        System.out.println("LinkedList实现双端队列");
+        q.offerLast(1);//队尾进队
+        q.offerLast(2);
+        q.offerLast(3);
+        System.out.println(q.pollFirst());//队头出队
+        System.out.println(q.pollFirst());
+        System.out.println(q.pollFirst());
+
+        q.offerFirst(4);//队头进队
+        q.offerFirst(5);
+        q.offerFirst(6);
+        System.out.println(q.pollLast());//队尾出队
+        System.out.println(q.pollLast());
+        System.out.println(q.pollLast());
+    }
+}
+```
 
 ## Map(**) ：两个方式存储
 
 ### HashMap
 
 ### TreeMap
+
+### LinkedHashMap
+
+
+
+
 
 ## Collections-工具类
