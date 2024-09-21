@@ -1,5 +1,7 @@
 # JAVA-集合类
 
+- 集合类使用的都是 引用类型
+
 > java将数据结构 实现了的工具
 > 
 > - 在 java.util. 包内**
@@ -698,16 +700,182 @@ public class ArrayQueue{
 }
 ```
 
-## Map(**) ：两个方式存储
+## Map(**) ：两个方式存储<K ,V>
 
-### HashMap
+- map 和 collection是两个不同的分支
 
-### TreeMap
+- map的继承关系图：
 
-### LinkedHashMap
+![](/home/administrator/.config/marktext/images/2024-09-21-13-13-23-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-21-13-57-36-image.png)
+
+###### map的体系图解
+
+![](/home/administrator/.config/marktext/images/2024-09-21-14-11-50-image.png)
+
+> collection类的set部分的实现是实现(或继承的 Map的类...),所以，set和map的部分是一一对应的
+> 
+> - HashSet <--- HashMap
+> 
+> - LinkedHashSet <-- LinkedHashMap
+> 
+> - TreeSet <-- TreeMap
+> 
+> - ....Set <---  .....Map
+> 
+> collection的set 借用了 map 来实现
+
+#### Map
+
+    ![](/home/administrator/.config/marktext/images/2024-09-21-14-57-03-image.png)
+
+> - remove()有返回值，可以选择接收：
+>   
+>   - V value = object.remove()
+> 
+> - Collection<V> valuse(); //只返回 key-value的value部分
+>   
+>   ```java
+>     Collection<String> list = Students.values();
+>     //Set<String> list = students.values();
+>     //假设获取学生姓名；
+>     Iterator<String> it = list.iterator();
+>     while(it.hasNext(){
+>        System.out.println(it.next());
+>     }
+>   ```
+> 
+> - Map的静态方法：生成键值对
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-21-15-07-40-image.png)
+> 
+> - keySet()
+> 
+> ```java
+> Map<String,Integer> maps = new HashMap<>();
+> maps.put("lishi",23);
+> maps.put("wangwu",43);
+> Object keys = maps.keySet();
+> System.out.println(keys);
+> //[lishi, wangwu] //获得键，存如set，so，key是唯一的
+> //keySet() 获取到了key，那结合 get(),就可以获取到值
+> for(var key : keys){
+>     System.out.println(maps.get(key));
+> }
+> ```
+> 
+> - 补充：...
+> - .entrySet(); //获取map对象
+>   - 对象.entryKey()
+>   - 对象.entryValue()
+
+###### Map集合的遍历
+
+```java
+import java.util.*;
+public class MapIterator{
+    public static void main(String[] args){
+        Map<String, Integer> map = new HashMap<>();
+        map.put("a", 1);
+        map.put("b", 2);
+        map.put("c", 3);
+
+// 使用 .entrySet() 可以获得整个map集合对象
+        // // Using for-each loop
+        // for (Map.Entry<String, Integer> entry : map.entrySet()) {
+        //     System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        // }
+
+        // // Using Iterator
+        // Iterator<Map.Entry<String, Integer>> iterator = map.entrySet().iterator();
+        // while (iterator.hasNext()) {
+
+        // }
+
+        //Set<Sring> keys = map.keySet();
+        // Iterator<String> it = keys.iterator();
+        //...
+        Iterator<String> it = map.keySet().iterator();
+        while (it.hasNext()) {
+            String key = it.next();
+            System.out.println( key + " : " + map.get(key));
+    }
+
+        //使用for
+        Set<String> keys = map.keySet();
+        for(String key : keys){
+            System.out.println( key + “ ： ” + map.get(key) );
+        }  //for-each 是包装了Iterator的
+}
+
+}
+```
+
+###### <mark>更高效</mark>的遍历map集合的方式：
+
+- 效率高是因为它是直接获取到对象，然后通过对象，使用getKey(),getvalue获得...
+
+![](/home/administrator/.config/marktext/images/2024-09-21-16-02-22-image.png)
+
+---
+
+
+
+> 使用 Map的内部类(是接口，内部接口)：Entry<K,V>
+> 
+> - Map.Entry<String,Integer>  <--- 类型type
+> 
+> - @return : Set<Map.Entry<String,Integer>
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-21-15-55-26-image.png)
+
+```java
+
+//Set<>集合存放的是map的对象(单列)
 
 
 
 
+
+import java.util.*;
+public class MapIterator{
+    public static void main(String[] args){
+        Map<String, Integer> map = new HashMap<>();
+        map.put("a", 1);
+        map.put("b", 2);
+        map.put("c", 3);
+
+        Set<Map.Entry<String,Integer>> entrys = map.entrySet();
+        //for-earch-loop
+        for(Map.Entry<String,Integer> entry : entrys){
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+        /*
+        for(Map.Entry<String,Integer> entry ; map.entrySet() ){
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+
+        }
+        */
+        
+
+        // Iterator
+        Iterator<Map.Entry<String,Integer>> iterator = entrys.iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String,Integer> entry = iterator.next();
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+        
+        
+}
+
+}
+```
+
+#### HashMap
+
+#### TreeMap
+
+#### LinkedHashMap
 
 ## Collections-工具类
