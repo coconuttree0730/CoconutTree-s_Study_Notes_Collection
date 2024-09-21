@@ -726,9 +726,142 @@ public class ArrayQueue{
 > 
 > collection的set 借用了 map 来实现
 
-#### Map
+#### Map： hash 也叫 ‘散列’
 
-    ![](/home/administrator/.config/marktext/images/2024-09-21-14-57-03-image.png)
+> 底层数据结构：
+> 
+> -     数组 + 单链表(到达一定的数量是，转成红黑树)
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-21-19-07-37-image.png)
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-21-19-29-54-image.png)
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-21-19-42-55-image.png)
+> 
+> hash表的好坏，根据‘散列均匀(<mark>node_num / arrary.length 的平均值</mark>  )’判断，所以hash函数要设计好
+
+> 如图：
+> 
+>     hash 的结点node包含(.key,.hash,.value,.next);四个属性；
+> 
+> - 其中的hash：   hash = hash(key)      //有一个hash函数，负责将key转换成 ‘数组索引：hash值’
+> 
+> ---
+> 
+> - hash的特征，key无序，key唯一(也就是，多个相同的key，进行put的时候，数据是覆盖的，一个key只保存一个最后put的值)
+>   
+>   - 保证key唯一值，需要重写 equals ，还有 hashcode
+
+###### hash表的 存储原理(图解)
+
+![](/home/administrator/.config/marktext/images/2024-09-21-19-46-30-image.png)
+
+> - 先 “ hashcode(key)  “ 获得 hash值，![](/home/administrator/.config/marktext/images/2024-09-21-21-17-42-image.png) 
+>   
+>   ![](/home/administrator/.config/marktext/images/2024-09-21-21-19-08-image.png)
+>   
+>   因为hashcode的值不一样（Object的hashCode返回的是jvm内存地址），所有求得的索引也不一样，所有没有hash冲突，所equals判断结果使得执行插入，而不是覆盖
+> 
+> - hash值%arr.length 获得 <mark>数组索引</mark>，通过索引找数组下标，该数组下标为空NULL时，进行插入，不为空就比较(<mark>equals ： 比较 key的值)，通过equals比较的的返回值（true、flase）决定是覆盖还是尾部插入
+
+- 需要重写 hashCode（<mark>Object.hash(key)</mark>）
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-21-21-37-36-image.png)
+  
+  > 上述代码，是根据hash生成 hash值，可根据业务决定是要几个“条件”生成hash
+  > 
+  > 原理就是这个：![](/home/administrator/.config/marktext/images/2024-09-21-21-40-42-image.png)，but！！！不要自己写，使用提供的<mark>Object.hash(  )</mark>生成的哈希散列更均匀
+
+- 代码实现：
+  
+  User.java
+
+```java
+/**
+ * @author : administrator
+ * @created : 2024-09-21
+**/
+package com.test;
+import java.util.*;
+public class User{
+
+    private String name;
+    private int age;
+
+    public void setName(String name){
+        this.name = name;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public void setAge(int age){
+        this.age = age;
+    }
+    public int getAge(){
+        return this.age;
+    }
+
+    public User(){
+
+    }
+
+    public User(String name, int age){
+        this.name = name;
+        this.age = age;
+
+    }
+    //实现hash的key唯一的关键： 重写 hashCode()、equals( ) 
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return (age == user.age) && Objects.equals(name,user.name);
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(name,age);
+    }
+
+}
+```
+
+  HashMapTestUser.java
+
+```java
+/**
+ * @author : administrator
+ * @created : 2024-09-21
+**/
+package com.test;
+import java.util.*;
+import com.test.User; 
+public class HashMapTestUser{
+
+    public static void main (String[] args) {
+        Map<User,Integer> userMap = new HashMap<>();
+        userMap.put(new User("zdfdfdhangshan",100),100000);
+        userMap.put(new User("zhangshan",100),100000);
+        userMap.put(new User("zhangshan",100),100000);
+        userMap.put(new User("wuzhongpwng",100),100000);
+        userMap.put(new User("zhangshan",100),100000);
+        userMap.put(new User("zhangshan",100),100000);
+        userMap.put(new User("zhangshan",100),100000);
+        userMap.put(new User("zhangshan",100),100000);
+
+        Set<Map.Entry<User,Integer>> entrys = userMap.entrySet();
+        for(var entry : entrys){
+            System.out.println(entry.getKey().getName() +"<->"+ entry.getKey().getAge() + " : " + entry.getValue());
+        }
+
+    }
+}
+```
+
+###### Map接口的常用方法
+
+![](/home/administrator/.config/marktext/images/2024-09-21-14-57-03-image.png) 
 
 > - remove()有返回值，可以选择接收：
 >   
@@ -820,8 +953,6 @@ public class MapIterator{
 
 ---
 
-
-
 > 使用 Map的内部类(是接口，内部接口)：Entry<K,V>
 > 
 > - Map.Entry<String,Integer>  <--- 类型type
@@ -831,7 +962,6 @@ public class MapIterator{
 > ![](/home/administrator/.config/marktext/images/2024-09-21-15-55-26-image.png)
 
 ```java
-
 //Set<>集合存放的是map的对象(单列)
 
 
@@ -857,7 +987,7 @@ public class MapIterator{
 
         }
         */
-        
+
 
         // Iterator
         Iterator<Map.Entry<String,Integer>> iterator = entrys.iterator();
@@ -865,14 +995,20 @@ public class MapIterator{
             Map.Entry<String,Integer> entry = iterator.next();
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
-        
-        
 }
 
 }
 ```
 
+- Map key-value 可为 null，但是只能有一对，因为都一样的hashCode地址
+
 #### HashMap
+
+#### Hashtable
+
+##### Properties（继承的Hashtable）
+
+> key 和 value 都是 String类型    
 
 #### TreeMap
 
