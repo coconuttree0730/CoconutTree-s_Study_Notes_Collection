@@ -727,7 +727,7 @@ public class ArrayQueue{
 > 
 > collection的set 借用了 map 来实现
 
-#### Map： hash 也叫 ‘散列’
+#### hash 也叫 ‘散列’
 
 > 底层数据结构：
 > 
@@ -1154,11 +1154,57 @@ public class MapIterator{
 
 ##### Properties（继承的Hashtable）
 
-> key 和 value 都是 String类型    
+> key 和 value 都是 String类型    ： 无范型，不支持范型，只有String    
 > 
 > - 主要用于 IO流
+> 
+> - 使用：
+>   
+>   1.setProperty() ； 底层就是 put();方法
+>   
+>   ![](/home/administrator/.config/marktext/images/2024-09-22-22-10-58-image.png)
+>   
+>   2. getProperty();
+>   
+>   ![](/home/administrator/.config/marktext/images/2024-09-22-22-14-09-image.png)
+> 
+> - properties  使用的不是Key-value;   而是 name-value
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-22-22-16-21-image.png)
+> 
+> > 同专属迭代器：使用propertyNames()
+> > 
+> > ![](/home/administrator/.config/marktext/images/2024-09-22-22-17-34-image.png)
+> > 
+> > ![](/home/administrator/.config/marktext/images/2024-09-22-22-18-06-image.png)获取全部~~key~~ name 的迭代器
+> > 
+> > - 要想获取全部value的方式：
+> > 
+> > ![](/home/administrator/.config/marktext/images/2024-09-22-22-20-27-image.png)
+
+- 小结：
+
+![](/home/administrator/.config/marktext/images/2024-09-22-22-21-45-image.png)
 
 #### TreeMap
+
+- 树的概念：
+
+![](/home/administrator/.config/marktext/images/2024-09-22-22-38-44-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-22-22-54-20-image.png)
+
+> TrreMap就是基于红黑二叉树实现的：
+> 
+> - 自平衡：满足给定的约束
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-22-22-56-00-image.png)
+
+#### Set （Map的延伸）
+
+##### HashSet
+
+##### TreeSet
 
 
 
