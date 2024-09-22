@@ -94,23 +94,23 @@ List<Integer> readOnly = List.of(343,545,434,3545,65,7,65);
 //readOnly.set(3,545); //error...不可修改...
 ```
 
-###### List特有方法： <mark>sort()</mark>
+###### List特有方法： <mark>sort()</mark>******
 
-> *结合<u>比较器(**comparator**)</u>灵活实现排序：*
+> *结合<u>比较器(**<mark>comparator</mark>**)</u>灵活实现排序：*
 > 
 > **前面学习**到的 **<u><mark>Arrays.sort(</mark>elements[]<mark>);</mark> </u>**//只能对基本数据类型以及它的对应包装类可实现排序，例如自定义类不可以
 > 
-> - Arrays.sort();想实现类对象的排序，是使用的compar**able**<T> 接口
+> - Arrays.sort();想实现类对象的排序，是<mark>使用的compar**able**<____T___> 接口</mark>
 >   
 >   ![](/home/administrator/.config/marktext/images/2024-09-10-15-27-54-image.png)
 >   
->   - 重写
+>   - 重写 compareTo()
 >     
 >     ![](/home/administrator/.config/marktext/images/2024-09-10-15-32-08-image.png)
 >     
 >     - 如果想按名字排(使用String的equals方法)，那就是：<mark>return this.name.compareTo(user.name);</mark>![](/home/administrator/.config/marktext/images/2024-09-10-22-00-06-image.png)
 >   
->   - > compareTo( ) : 返回值 ：（    0：a == b; 
+>   - > compareTo( ) : 返回值 ：（          0：a == b; 
 >     > 
 >     >                                                    x > 0:  a > b;       
 >     > 
@@ -201,7 +201,7 @@ List<Integer> readOnly = List.of(343,545,434,3545,65,7,65);
 > 
 > 用法：
 > 
-> - (1) 需要排序类
+> - (1) 待排序类
 >   
 >   ![](/home/administrator/.config/marktext/images/2024-09-10-22-31-51-image.png)
 > 
@@ -211,11 +211,11 @@ List<Integer> readOnly = List.of(343,545,434,3545,65,7,65);
 >   
 >   List<type> list ...
 >   
->   <mark>list.sort(new comparator-class-name);</mark>
+>   <mark>list.sort(new comparator_class_name);</mark>
 >   
 >   ![](/home/administrator/.config/marktext/images/2024-09-10-22-35-23-image.png)
 > 
-> - (3) 实现compartor排序器to类(<mark>负责写比较规则</mark>)
+> - (3) 实现compartor排序器to类(<mark>负责写比较规则</mark>) <-- 第三个类
 >   
 >   list.sort(接收一个比较规则的实例，sort就可以根据规则进行asc/desc...)
 >   
@@ -319,7 +319,8 @@ List<Integer> readOnly = List.of(343,545,434,3545,65,7,65);
 >   public class UserComparator implements Comparator<User>{
 >       @Override
 >       public int compare(User u1, User u2){
->           return Integer.compare(u2.getAge(),u1.getAge());  //order : desc
+>           return Integer.compare(u2.getAge(),u1.getAge());  //order : desc、
+>                           //  u2.getAge() - u1.getAge()
 >       }
 >   }
 >   ```
@@ -910,7 +911,7 @@ import java.util.*;
 public class MapIterator{
     public static void main(String[] args){
         Map<String, Integer> map = new HashMap<>();
-        map.put("a", 1);
+     c   map.put("a", 1);
         map.put("b", 2);
         map.put("c", 3);
 
@@ -977,7 +978,7 @@ public class MapIterator{
         map.put("c", 3);
 
         Set<Map.Entry<String,Integer>> entrys = map.entrySet();
-        //for-earch-loop
+        //for-earch-loop                       //V key = map.keySet(); + map.get(key)
         for(Map.Entry<String,Integer> entry : entrys){
             System.out.println(entry.getKey() + " : " + entry.getValue());
         }
@@ -1004,14 +1005,161 @@ public class MapIterator{
 
 #### HashMap
 
-#### Hashtable
+- hash表的改进（这个改进是相对于 java-8来的）
+
+![](/home/administrator/.config/marktext/images/2024-09-22-14-35-05-image.png)
+
+- hashMap的扩容： 2^n  ; 2,4,8,16,32,64,...
+  
+  - why? 
+  
+  - ![](/home/administrator/.config/marktext/images/2024-09-22-14-51-18-image.png)
+  
+  - so: 就是为了解决<mark>(减少)hash冲突的发生 - 散列分布均匀</mark>，和提高计算效率(保证是2的次幂才能使用位位运算)得到正确结果![](/home/administrator/.config/marktext/images/2024-09-22-14-55-53-image.png)
+    
+    对比Hashtable的解决方式：![](/home/administrator/.config/marktext/images/2024-09-22-21-38-15-image.png)
+
+- 什么时候链转树，什么什么时候树转链
+
+    ![](/home/administrator/.config/marktext/images/2024-09-22-14-39-36-image.png)
+
+- hash表<mark>扩容</mark>：初始化 16的长度
+  
+    【】-[]->[]->[]->[]->null
+    【】
+    【】-[]->[]->
+    【】
+    {+}
+    {+}
+
+ 对hashMap进行扩容是很耗成本的...(需要重新进行hash计算，重新将node链接...非常耗资源)：![](/home/administrator/.config/marktext/images/2024-09-22-18-52-52-image.png)       
+
+所以，为了提高效率...
+
+![](/home/administrator/.config/marktext/images/2024-09-22-18-53-31-image.png)
+
+> 先进行预估（大概需要多少个），进行初始化个数
+> 
+> hashMap的扩容：使用到加载因子：<mark>0.75</mark>是测试得出的最优结果
+> 
+> (0.75 *  hashtable.length) 到达时，触发扩容
+
+- 思考题：
+
+![](/home/administrator/.config/marktext/images/2024-09-22-19-05-42-image.png)
+
+> - 离 15 最近的2次幂是  16 = 2^4；
+> 
+> - 16 * 0.75 = 12(真实容量：因为到了12就进行扩容操作了) 
+
+
+
+
+
+##### LinkedHashMap
+
+> hashMap +  doubleLinkedList
+> 
+> - LinkedHashMap的结构：
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-22-20-04-58-image.png)
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-22-20-04-26-image.png)
+> 
+> 就是靠 befor 和 after 实现的 可顺序
+> 
+> - LinkedHashMap 能有序的插入元素进入hash表：
+> 
+> ```java
+> /**
+>  * @author : administrator
+>  * @created : 2024-09-22
+> **/
+> import java.util.*;
+> 
+> public class ExerciseLinkedHashMap{
+> 
+>     public static void main (String[] args) {
+>        Map<String,String> mapName = new LinkedHashMap<>();
+>         mapName.put("one","java");
+>         mapName.put("two","python");
+>         mapName.put("three","c++");
+>         mapName.put("four","c");
+>         mapName.put("five","node.js");
+>         mapName.put("6","66");
+> 
+>         Set<Map.Entry<String,String>> entrys = mapName.entrySet();
+>         Iterator<Map.Entry<String,String>> it = entrys.iterator();
+>         while(it.hasNext()){
+>             Map.Entry<String,String> entry = it.next();
+>             System.out.println(entry.getKey() + " : " + entry.getValue());
+>         }
+> 
+>     }
+> }
+> 
+> 
+> 
+> ```
+> 
+> 
+> 
+> 输出结果：
+> 
+> ```shell
+> one : java
+> two : python
+> three : c++
+> four : c
+> five : node.js
+> 6 : 66
+> # 能做到，谁先put，谁就先在前
+> ```
+
+#### Hashtable:
+
+> 和hashMap是一样的，但是 Hashtable是线程安全（有锁，需要等待）的，效率要差
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-22-21-40-56-image.png)
+
+- Hashtable的put方法：（Hashtable的value不能为空）
+
+![](/home/administrator/.config/marktext/images/2024-09-22-21-39-10-image.png)
+
+##### Hashtable有自己的迭代器，（当然他也能用 Iterator<>)
+
+如何使用？因为特有嘛，所以要使用Hashtable类本身
+
+![](/home/administrator/.config/marktext/images/2024-09-22-21-48-44-image.png)
+
+使用Map接口并没有Hashtable的独有迭代器
+
+![](/home/administrator/.config/marktext/images/2024-09-22-21-49-19-image.png)
+
+###### .Keys()；获取所有key的迭代器
+
+![](/home/administrator/.config/marktext/images/2024-09-22-21-51-32-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-22-21-54-16-image.png)
+
+> 和Iterator还是很像的...
+> 
+> - Enumeration<T> ： .key()方法的返回值类型
+
+###### .elements();获取map的所有value的迭代器
+
+![](/home/administrator/.config/marktext/images/2024-09-22-21-56-27-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-22-21-56-55-image.png)
 
 ##### Properties（继承的Hashtable）
 
 > key 和 value 都是 String类型    
+> 
+> - 主要用于 IO流
 
 #### TreeMap
 
-#### LinkedHashMap
+
 
 ## Collections-工具类

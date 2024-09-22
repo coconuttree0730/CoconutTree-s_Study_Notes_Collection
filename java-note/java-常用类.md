@@ -2,11 +2,11 @@
 
 > 字符串 类
 > 
-> - String str = new String("hello world");
+> - String str = new String("hello world");  //[过时不推荐]
 > 
 > - String str = "hello world";
 > 
-> - "文本" ---> 运行时（一次初始化时扫描全部）  加载进【字符串常量池 -  缓存机制 】同 【static 常量池一样】 且都在 heap中： 不用重复 new 对象... 
+> - "文本" ---> 运行时（<mark>一次初始化时扫描全部</mark>）  **加载进【字符串常量池 -  缓存机制 】同 【static 常量池一样】 且都在 heap中： 不用重复 new 对象**... 
 >   
 >   - String str1 = "hello" 
 >   
@@ -14,12 +14,12 @@
 >   
 >   - > System.out.printnl(str2 == str1); //  true ,地址相同，表示是访问的同一个  
 >   
->   - ![](/home/administrator/.config/marktext/images/2024-08-22-17-40-29-image.png)  new String 就是新开辟空间 所以就会不相等： 使用：equal（）![](/home/administrator/.config/marktext/images/2024-08-22-17-42-30-image.png)
+>   - ![](/home/administrator/.config/marktext/images/2024-08-22-17-40-29-image.png)  <mark>new String()</mark> 就是新开辟空间 所以就会不相等： 使用：equals（），所以，不推荐使用 new String("xxx"),的原因就是会new多个空间，消耗内存...
 >     
 >     ```java
 >     String str1 = "hello";
 >     String str2 = "world";
->     String str3 = str1 + str2;//底层是StringBulider 类（使用 “+” 号）的时候(“+”号左右有一个是变量的时候)
+>     String str3 = str1 + str2;//底层是  StringBulider 类（使用 “+” 号）的时候(“+”号左右有一个是变量的时候)
 >     // str3 指向 堆区，并不指向 常量池
 >     //使用 intern（）,将堆区的“hello world”放入常量池
 >     String internStr = str3.intern();
@@ -28,13 +28,11 @@
 >     System.out.prinln(str3 == str4)//false: 使用拼接成的字符串不会放入常量池
 >     ```
 >     
->     String name = "wu"  + "zhongpeng"; //编译阶段就： String name = “wuzhongpeng";运行阶段写入到池里的就是“wuzhongpeng”
->     
->     ```
->     ![](/home/administrator/.config/marktext/images/2024-08-22-19-52-22-image.png)
->     ```
-> 
-> - "xxxx" 是常量，存于string常量池，**不可变**，但 指向可变：
+>     String name = "wu"  + "zhongpeng"; //编译阶段就： String name = “wuzhongpeng";运行阶段写入到池里的就是“wuzhongpeng”e
+
+              ![](/home/administrator/.config/marktext/images/2024-08-22-19-52-22-image.png)
+
+> - "xxxx" 是常量，存于string常量池，**不可变**，但 指向可变：就是说，叫wu,就是wu，你不能把的地址上的值改掉，但是它可以指向其他变量
 >   
 >   ```java
 >   String name = "zhangshan";//“zhangshan”是字面量，不可变
@@ -304,7 +302,7 @@ sdf.format(now);
   //Sun Aug 25 00:00:00 CST 2024
   ```
 
-#### 日历api
+### 日历api
 
 > Calendar
 
@@ -330,7 +328,7 @@ public class calendar{
  }
 ```
 
-#### java-8 （Date-Time）新特性
+### java-8 （Date-Time）新特性
 
 > 目的：线程安全(纳秒级)
 
