@@ -1052,10 +1052,6 @@ public class MapIterator{
 > 
 > - 16 * 0.75 = 12(真实容量：因为到了12就进行扩容操作了) 
 
-
-
-
-
 ##### LinkedHashMap
 
 > hashMap +  doubleLinkedList
@@ -1097,12 +1093,7 @@ public class MapIterator{
 > 
 >     }
 > }
-> 
-> 
-> 
 > ```
-> 
-> 
 > 
 > 输出结果：
 > 
@@ -1196,9 +1187,85 @@ public class MapIterator{
 
 > TrreMap就是基于红黑二叉树实现的：
 > 
-> - 自平衡：满足给定的约束
+> - 自平衡：满足给定的约束（******）
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-22-22-56-00-image.png)
+
+```java
+/**
+ * @author : administrator
+ * @created : 2024-09-23
+**/
+import java.util.*;
+public class TreeMapDemo{
+    public static void main(String[] args){
+
+        TreeMap<String,Integer> treeMap = new TreeMap<>();
+        treeMap.put("zhanshna",34);
+        treeMap.put("wangwu",23);
+        treeMap.put("lishi",33);
+        treeMap.put("wuzhonpeng",18);
+        treeMap.put("benzhu",26);
+        System.out.println("------ iterator ---------");
+        Set<Map.Entry<String,Integer>> entrys = treeMap.entrySet();
+        Iterator<Map.Entry<String,Integer>> it = entrys.iterator();
+        while(it.hasNext()){
+            Map.Entry<String,Integer> entry = it.next();
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+
+        }
+        System.out.println("----for:----------------");
+
+
+        for(Map.Entry<String,Integer>  entry : entrys){
+            System.out.println(entry.getKey() +  " ::::: " + entry.getValue());
+        }
+
+    }
+
+}
+```
+
+> ❯ java TreeMapDemo
+> ------
+> 
+> benzhu : 26
+> lishi : 33
+> wangwu : 23
+> wuzhonpeng : 18
+> zhanshna : 34
+> ----for:----------------
+> benzhu ::::: 26
+> lishi ::::: 33
+> wangwu ::::: 23
+> wuzhonpeng ::::: 18
+> zhanshna ::::: 34
+> 
+> -------------------------------- 结论： treeMap会排序输出（String 按 ascall码顺序，Integer等整形按 数字大小排序 asc）
+
+
+
+###### TreeMap自定义类型（非String，Integer...），如何也能进行 排序？？
+
+> 1.使用 compable<T> 实现
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-23-23-19-25-image.png)
+> 
+> comparaTo()
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-23-23-18-34-image.png)
+> 
+> 
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-23-23-22-26-image.png)
+> 
+> ----
+> 
+> 2. 使用 Comparator    
+
+
+
+
 
 #### Set （Map的延伸）
 
@@ -1206,6 +1273,8 @@ public class MapIterator{
 
 ##### TreeSet
 
-
-
 ## Collections-工具类
+
+```
+
+```
