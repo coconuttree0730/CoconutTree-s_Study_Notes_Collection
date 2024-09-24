@@ -2,7 +2,7 @@
 
 > 所有的异常类都是继承 Throwable (接口)
 > 
->                               Throwable
+>                               **Throwable**
 > 
 >                             /                    \
 > 
@@ -10,24 +10,30 @@
 > 
 >                   /               \                        \
 > 
->  checkExcept...   RuntimeExcept...    (...):NullPointerError、ArithmeticError、 ...
+>  <mark>checkExcept...</mark>   RuntimeExcept...    (...):NullPointer**Error**、ArithmeticError、 ...
 > 
 >           /|\                                  \              /
 > 
->   IOE... ...                      uncheckException
+>   IOE... ...                     <mark> uncheckException</mark>
 
 ## 异常产生/抛出(throws/throw)
 
 - 自<mark>定义</mark>异常类(Class)：
   
-  - extends :  Exception  //自定义的异常类需要使用(继承) Exception接口...
+  - extends :  Exception  //自定义的异常类需要使用(继承：<u>extends</u> ) **Exception** 接口...
   
-  - 生成构造方法(<mark>要有这两个</mark>)：1.有参数，2.无参数：
+  - 生成构造方法(<mark>要有这两个</mark>)：
+    
+    1.有参数: MyException("message ...")
+    
+    2.无参数：MyException( );
+
+
 
 - <mark>使用</mark>：
   
   - **<mark>throw</mark>** new construction("Error Messages...");//这<u>调用的是有参数的</u>
-  - **<mark>throws </mark>**用于将异常抛给调用者，由调用者进行 try-catch处理
+  - <mark>throws </mark>用于将异常<u>抛给调用者</u>，由调用者进行 try-catch处理
 
 ---
 
@@ -52,8 +58,6 @@
   > //........
   > 
   > }
-
-
 
 - 新用法：
   

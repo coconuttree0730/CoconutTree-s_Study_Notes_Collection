@@ -1367,8 +1367,6 @@ public class TreeMapDemo{
 
 ![](/home/administrator/.config/marktext/images/2024-09-24-18-39-09-image.png)
 
-
-
 ###### Collections.其他...
 
 ![](/home/administrator/.config/marktext/images/2024-09-24-18-40-57-image.png)
@@ -1376,8 +1374,6 @@ public class TreeMapDemo{
 > .reverse(); 会将原list集合进行修改...
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-24-18-43-12-image.png)
-
-
 
 ![](/home/administrator/.config/marktext/images/2024-09-24-18-47-01-image.png)
 
