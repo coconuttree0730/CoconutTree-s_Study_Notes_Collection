@@ -749,7 +749,7 @@ public class ArrayQueue{
 > 
 > ---
 > 
-> - hash的特征，key无序，key唯一(也就是，多个相同的key，进行put的时候，数据是覆盖的，一个key只保存一个最后put的值)
+> - hash的特征，<mark>key无序</mark>，key唯一(也就是，多个相同的key，进行put的时候，数据是覆盖的，一个key只保存一个最后put的值)
 >   
 >   - 保证key唯一值，需要重写 equals ，还有 hashcode
 
@@ -765,13 +765,15 @@ public class ArrayQueue{
 > 
 > - hash值%arr.length 获得 <mark>数组索引</mark>，通过索引找数组下标，该数组下标为空NULL时，进行插入，不为空就比较(<mark>equals ： 比较 key的值)，通过equals比较的的返回值（true、flase）决定是覆盖还是尾部插入
 
+###### 重写hashcode 和 equals ： 实现map-key的唯一性
+
 - 需要重写 hashCode（<mark>Object.hash(key)</mark>）
   
   ![](/home/administrator/.config/marktext/images/2024-09-21-21-37-36-image.png)
   
   > 上述代码，是根据hash生成 hash值，可根据业务决定是要几个“条件”生成hash
   > 
-  > 原理就是这个：![](/home/administrator/.config/marktext/images/2024-09-21-21-40-42-image.png)，but！！！不要自己写，使用提供的<mark>Object.hash(  )</mark>生成的哈希散列更均匀
+  > 原理就是这个：![](/home/administrator/.config/marktext/images/2024-09-21-21-40-42-image.png)，**but**！！！不要自己写，使用提供的<mark>Objects.hash(  )</mark>生成的哈希散列更均匀
 
 - 代码实现：
   
@@ -814,11 +816,10 @@ public class User{
     //实现hash的key唯一的关键： 重写 hashCode()、equals( ) 
     @Override
     public boolean equals(Object o){
-        if(this == o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
+        if(this == o) return true;  //判断
+        if(o == null || getClass() != o.getClass()) return false; //判断
         User user = (User) o;
-        return (age == user.age) && Objects.equals(name,user.name);
-    }
+        return (age == user.age) && Objects.equals(name,user.name); //判断    }
 
     @Override
     public int hashCode(){
@@ -1119,7 +1120,7 @@ public class MapIterator{
 
 ##### Hashtable有自己的迭代器，（当然他也能用 Iterator<>)
 
-如何使用？因为特有嘛，所以要使用Hashtable类本身
+<u>如何使用？因为特有嘛，所以要使用Hashtable类本身</u>
 
 ![](/home/administrator/.config/marktext/images/2024-09-22-21-48-44-image.png)
 
@@ -1127,7 +1128,7 @@ public class MapIterator{
 
 ![](/home/administrator/.config/marktext/images/2024-09-22-21-49-19-image.png)
 
-###### .Keys()；获取所有key的迭代器
+###### .Keys()；获取所有key的迭代器： Enumeration<T> 类型接收
 
 ![](/home/administrator/.config/marktext/images/2024-09-22-21-51-32-image.png)
 
@@ -1164,6 +1165,8 @@ public class MapIterator{
 > ![](/home/administrator/.config/marktext/images/2024-09-22-22-16-21-image.png)
 > 
 > > 同专属迭代器：使用propertyNames()
+> > 
+> > - 结合 hasMoreElements()  + nextElement() 一起使用
 > > 
 > > ![](/home/administrator/.config/marktext/images/2024-09-22-22-17-34-image.png)
 > > 
@@ -1243,38 +1246,143 @@ public class TreeMapDemo{
 > 
 > -------------------------------- 结论： treeMap会排序输出（String 按 ascall码顺序，Integer等整形按 数字大小排序 asc）
 
+###### TreeMap<mark>自定义类</mark>型（非String，Integer...），如何也能进行 排序？？
 
-
-###### TreeMap自定义类型（非String，Integer...），如何也能进行 排序？？
-
-> 1.使用 compable<T> 实现
+> 1.使用 compable<T> 实现:会破坏程序结构：适用于固定不变的比较，比如数字间比较
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-23-23-19-25-image.png)
 > 
-> comparaTo()
+> **comparaTo()**  // 重写
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-23-23-18-34-image.png)
-> 
-> 
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-23-23-22-26-image.png)
 > 
 > ----
+
+> 2. 使用 Comparator    ： 不会破坏 程序结构（不用在自定义类实现接口  comparable<T>）；<mark>更灵活</mark>
+> - 使用 comparator 比较器实现，需要写一个类，实现comprator<T> : 满足ocp原则:重写 **compare()**方法
 > 
-> 2. 使用 Comparator    
+> ![](/home/administrator/.config/marktext/images/2024-09-24-14-04-15-image.png)     
+> 
+> ... 和 Array - List 实现排序.sort() 是一样的处理方式    
+> 
+> - 如何使用呢？
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-24-14-12-11-image.png)
+> 
+> 传入一个比较器(手动编写：实现comparator<T>接口的 compara()方法的类...
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-24-14-11-51-image.png)
+> 
+> 使用的语法：![](/home/administrator/.config/marktext/images/2024-09-24-14-13-41-image.png)
+> 
+> - 小结： equals + hashCode ，实现 key唯一；comparator() and comparable()实现key-value  有排序
 
+---
 
+###### TreeMap<T> map = new TreeMap<>(paraments); 源码解析：
 
+![](/home/administrator/.config/marktext/images/2024-09-24-14-19-09-image.png)
 
+当然没有传入构造器参数是走的 comparable分支...(也就是：内部会找到自定义的实现comparable接口的comparaTo()方法...)
+
+- 当然，可以使用 匿名方式实现：
+
+```java
+  Map<Person, Integer> map = new TreeMap<>(new Comparator<Person>() {
+            public int compare(Person p1, Person p2) {
+                return p1.name.compareTo(p2.name);
+            }
+        });
+```
+
+- 小结： 
+  
+  - [x] TreeMap : key 不能为null
+  
+  - [ ] Hashtable ： key 和 value 不能为null
+  
+  - [ ] Properties : key value 都不能为空...
+  
+  - [ ] Collection 的 subClass 的key-value 都可为空
+  
+  - [ ] ...
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-24-15-13-41-image.png)
+  
+  > LinkedHashSet ,HashSet 可为null
 
 #### Set （Map的延伸）
 
+![](/home/administrator/.config/marktext/images/2024-09-24-15-15-31-image.png)![](/home/administrator/.config/marktext/images/2024-09-24-15-16-08-image.png)
+
 ##### HashSet
+
+... 也和HashMap一样，要重写 equals 和 hashCode...才能实现key唯一
+
+##### LinkedHashSet
+
+...和 LinkedHashMap 一样， 内部数据结构就决定了是有序存入到结构内的
 
 ##### TreeSet
 
+... 和 TreeMap也一样：
+
+![](/home/administrator/.config/marktext/images/2024-09-24-15-27-11-image.png)
+
+###### HashSet面试题
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-04-41-image.png)
+
+分析内部原理：(记住：存在哈希表内的，都是需要 hash值找索引的：<mark>hash值的取的</mark>(参数1 + 参数2 + 参数3 ...)。。。
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-05-25-image.png)
+
 ## Collections-工具类
 
-```
+![](/home/administrator/.config/marktext/images/2024-09-24-18-45-00-image.png)
 
-```
+- 用于操作Collection实现的实现类...List...ArrayList... Set...
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-21-02-image.png)
+
+###### .Sotr()： 专门给List集合使用的...
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-26-03-image.png)
+
+- 如果想让自定义的类也能使用Collections.sort(),需要将自定义类实现一下comparable<T>接口,,,
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-29-04-image.png)
+
+- 也可以使用 comparator<> 比较器实现...  发现没有，和List的.sort()方法想对自定义类排序是一样的操作，1.要么 实现 comparable<ClassName>,2.要么实现 comparator<ClassName> 比较器：   （传入两个参数）
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-33-31-image.png)
+
+###### .shuffle()  洗牌：打乱
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-35-29-image.png)
+
+输出：    
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-39-09-image.png)
+
+
+
+###### Collections.其他...
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-40-57-image.png)
+
+> .reverse(); 会将原list集合进行修改...
+> 
+> ![](/home/administrator/.config/marktext/images/2024-09-24-18-43-12-image.png)
+
+
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-47-01-image.png)
+
+- 关于不可变集合，是会对原集合 有“副作用的” 需置null
+
+![](/home/administrator/.config/marktext/images/2024-09-24-18-49-23-image.png)
+
+...
