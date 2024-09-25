@@ -12,9 +12,9 @@
 
      ![](/home/administrator/.config/marktext/images/2024-09-06-21-08-26-image.png)
 
-> - CLI : 命令行方式（同mysql一样）
+> - <mark>CLI :</mark> 命令行方式（同mysql一样）
 > 
-> - API：应用程序接口（编程语言调用）
+> - <mark>API</mark>：应用程序接口（编程语言调用）
 > 
 > - GUI：...图形化操作界面
 
@@ -25,46 +25,44 @@
 ### 下载
 
 ```shell
-sudo apt install redis
+sudo apt install redis   #ubuntu..debian...
 ```
 
 #### 启动
 
 ```shell
-systemctl start redis-server
+systemctl start redis-server   #启动服务：服务端
 ```
 
 #### 测试连接情况
 
 ```shell
-redis-cli -p 端口号 ping  //回复‘PONG’表示启动成功
+redis-cli -p 端口号 ping  #回复‘PONG’表示启动成功 ：客户端
 ```
 
 - redis可通过配置文件修改端口号：
   
   ```shell
-  sudo vim  /etc/redis/redis.conf
+  sudo vim  /etc/redis/redis.conf    # 解决端口占用问题...
   ```
-  
-  修改：
   
   ![](/home/administrator/.config/marktext/images/2024-09-06-21-52-43-image.png)
 
 重启：
 
 ```shell
-sudo systemctl restart redis
+sudo systemctl restart redis   # 修改完毕之后，进行重启服务
 ```
 
 ----
 
 ### 使用redis
 
->  先开redis服务;后开客户端
+> 先开redis服务; 后开客户端
 > 
-> redis-server
+> redis-server   （1）
 > 
-> redis-cli
+> redis-cli          （2）
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-06-21-58-02-image.png)
 
@@ -72,12 +70,18 @@ sudo systemctl restart redis
 
 > redis 是以key-value 的存储方式
 
-#### (1)：String(默认存储，任何类型：bool，int，...)
+#### (1)：String
+
+> (默认存储，任何类型：bool，int，...)  “12”，“true”，“false”，...
+
+---
+
+
 
 ##### set：(“做”出一个键值对)
 
 ```shell
-SET name "zhangshan"
+SET name "zhangshan"   #set key value
 set name_2 lishi
 ```
 
@@ -96,7 +100,7 @@ get name_2
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-36-26-image.png)
 
-##### exists:(判断存在？)
+##### exists:(判断存在？) : true : 1; false :  0
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-37-49-image.png)
 
@@ -104,17 +108,21 @@ get name_2
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-39-54-image.png)
 
-- keys * ：列出全部key
+- <mark><u>keys * ：列出全部key</u></mark>
+
+---
+
+
 
 支持正则表达：
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-41-16-image.png)
 
-##### flushall:(清除全部key-value)
+##### flushall    :(清除全部key-value)
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-42-12-image.png)
 
-使用 --raw  选项参数可设置原始结果（默认以二进制，所以中文文本会变成进制表示），显示文本中文
+使用 <mark>--raw  </mark>选项参数可设置原始结果（默认以二进制，所以中文文本会变成进制表示），显示文本中文
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-45-39-image.png)
 
@@ -124,19 +132,27 @@ get name_2
 
 > -1 表示没有设置过期时间
 
-##### expire:(设置过期时间)
+##### <mark>ex</mark>pire:(设置过期时间)
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-49-51-image.png)
 
 > 设置10秒，时间到，key-value 被释放
 
-##### setex:(设置可过期key-value)
+##### set<mark>ex</mark>:(设置可过期key-value)
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-12-56-53-image.png)
 
-##### setnx:(当键不存在是”set“，存在就不创建)
+##### set<mark>nx</mark>:
+
+>  (当键不存在是”set: 创建新key-value“，存在就不创建)
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-13-00-07-image.png)
+
+
+
+----
+
+
 
 #### (2)：List
 
@@ -202,7 +218,7 @@ get name_2
 
 ---
 
-#### (3)：Set（不可添加重复元素的集合）
+#### (3)：Set（不可添加重复元素的集合）--- key 具有唯一性
 
 <mark>命令特点：以“**s**” 开头</mark>
 
@@ -240,7 +256,7 @@ srem <set-name> <set-element>
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-07-15-36-36-image.png)
 
-#### (4)：SortedSet:有序集合
+#### (4)：SortedSet:有序集合  ： '"TreeSet"'
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-15-45-21-image.png)
 
@@ -340,6 +356,16 @@ hget <hashtable-name> <hash-key>
 
 ![](/home/administrator/.config/marktext/images/2024-09-07-16-22-00-image.png)
 
+
+
+
+
+
+
+---
+
+
+
 ### (6)：发布订阅模式
 
 - 发布：publish
@@ -381,6 +407,14 @@ subscribe <接收哪个频道>
 > **使用 stream ：消息队列 可解决持久化问题！**
 
 ---
+
+
+
+
+
+
+
+
 
 ### (7)：消息队列：Stream
 
@@ -493,7 +527,19 @@ xread count <个数：n> /*一次读n个*/ [block] [1000]//ms  <streams> <开始
 
 ![](/home/administrator/.config/marktext/images/2024-09-08-21-28-53-image.png)
 
-### 
+
+
+
+
+
+
+-----
+
+
+
+
+
+
 
 ### 地理空间：
 
@@ -503,7 +549,17 @@ xread count <个数：n> /*一次读n个*/ [block] [1000]//ms  <streams> <开始
 
 ...
 
+
+
+
+
+---
+
+
+
 ### 事务处理
+
+---
 
 
 
@@ -527,8 +583,6 @@ xread count <个数：n> /*一次读n个*/ [block] [1000]//ms  <streams> <开始
 
 - 使用crontab 执行 0点定时任务将保存的快照备份最安全
 
-
-
 #### AOF
 
 ![](/home/administrator/.config/marktext/images/2024-09-09-13-10-16-image.png)
@@ -537,8 +591,20 @@ xread count <个数：n> /*一次读n个*/ [block] [1000]//ms  <streams> <开始
 
 
 
+---
+
+
+
 ### 主从redis服务配置
 
 
 
+
+
+---
+
+
+
 ### 哨兵模式
+
+...
