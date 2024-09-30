@@ -175,7 +175,7 @@ public class OutputInputStreamCopy{
                 out.write(buffer,0,readCount);
             }
 
-            out.flush();
+            out.flush(); //字节流自动关闭...无需flush...
             System.out.println("copy success !");
         }catch(IOException e){
 
@@ -293,6 +293,8 @@ public class read_write_copy{
 ---
 
 ---
+
+      以下是包装流... 包装流都需要手动 .flush（writer时）
 
 ### 缓冲流（Buffer...）--> <mark>效率高</mark> 适合操作大文件
 
@@ -418,6 +420,14 @@ public class BufferReaderTest{
 
 -----------
 
+
+
+
+
+
+
+
+
 ### <mark>转换流</mark>（InputStreamReader   \   OutputStreamWriter）
 
 [字节流]  ———转换流———> [字符流]
@@ -472,27 +482,15 @@ public class InputStreamReaderTest{
 }
 ```
 
-- outputStreamWriter();
+- outputStreamWriter();  
+
+> OutputStreamWriter(new FileInputStream(,),"GBK") ==> FIleWriter("file-path", Charset.forNmae("GBK"),appen???);
+
+![](/home/administrator/.config/marktext/images/2024-09-28-21-59-31-image.png)
 
 ```java
-/**
- * @author : administrator
- * @created : 2024-09-26
-**/
-import java.io.*;
-//import java.nio.*;
+//...
 
-public class OutputStreamWriterTest{
-    public static void main (String[] args) {
-        try( FileWriter fw = new FileWriter("testFile.java",true)){
-               fw.write("test...");
-        }catch(Exception e){
-               e.printStackTrace();
-            }
-
-    }
-
-}
 ```
 
 ------------
@@ -524,7 +522,7 @@ dos.flush()
 dos.colse()
 ```
 
-###### DataInputStream(InputStream in): 读取使用dataoutstream写入的内容
+###### DataInputStream(InputStream in): 读取 使用dataoutstream写入的内容：
 
 ```java
 DataInputStream dis = new DataInputStream(FileInputStream(。。。))；
@@ -535,7 +533,7 @@ int i = dis.readInt();
 double d = dis.readDouble();
 //dos.weiteFloat(f);
 float f = dis.readFloat();
-
+//控制台输出🎛
 System.out.println(i);
 System.out.println(d);
 System.out.println(f);
@@ -802,9 +800,153 @@ Scanner scanner = new Scanner(System.in);//控制台获取输入
 
 ### File类
 
-------
+- 是  “路径” 的抽象 表现方式
 
-### 装饰器：设计模式
+- file对象 <--> 文件路径（文件or目录）
+
+- File类不属于 io流： 它是继承 java.lang.Oject的
+
+![](/home/administrator/.config/marktext/images/2024-09-27-22-51-07-image.png)
+
+//.........................
+
+#### FIle类 和 Properties集合 组成的 配置文件...
+
+- jdbc 连接配置文件...
+  
+  > 其他配置文件也是一样的原理： 避开底层源代码(不用在源代码里修改内容)：具有内容安全性and傻瓜式(将配置文件写成GUI程序，方便客户修改内容：
+  > 
+  > +-----------------------------+
+  > 
+  > |  地址：【            】   |
+  > 
+  > |  密码 ：【           】   |
+  > 
+  > +-----------------------------+
+  > 
+  > )
+  
+  ###### Properties 属性配置文件：
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-28-15-46-57-image.png)
+  
+  - 文件名要求： xxx.properties
+  
+  - 如： jdbc.properties
+  
+  - 不能有空格：
+  
+  - `#` 是注释符号
+  
+  - key不可重复：
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-28-15-49-49-image.png)
+
+
+
+
+
+###### 使用Reader 或 FileOutputStream 获取 properties配置文件的信息
+
+- 方式一 ： load :<mark>加载</mark>
+
+![](/home/administrator/.config/marktext/images/2024-09-28-15-59-13-image.png)
+
+- 简化方式：
+
+使用 资源<mark>绑定</mark>： ResourceBundle
+
+位于 java.util.ResoureBundle;
+
+![](/home/administrator/.config/marktext/images/2024-09-28-16-12-45-image.png)
+
+> 将配置文件以包的形式 .properties是文件后缀，不用写入调用方法
+> 
+> - 当前 jdbc.properties文件位于 com.powernode.javase.io包下
+> 
+>     ![](/home/administrator/.config/marktext/images/2024-09-28-16-15-34-image.png)
+
+
+
+---
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 装饰器：（设计模式）
+
+io流设计到大量的装饰器
+
+- 就是包装；就是io里的包装(处理)流
+
+
+
+![](/home/administrator/.config/marktext/images/2024-09-28-17-10-44-image.png)
+
+装饰器代码：
+
+- 装饰者和被装饰者使用同一个接口...or 继承同一个抽象类
+
+- 说明：
+
+![](/home/administrator/.config/marktext/images/2024-09-28-17-15-44-image.png)
+
+- b extends/implements a ; b类内部引用a类型
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-28-17-21-11-image.png)
+  
+  ---
+  
+  定义：
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-28-17-22-21-image.png) 
+  
+  ![](/home/administrator/.config/marktext/images/2024-09-28-17-22-58-image.png)
+
+- 使用：
+
+![](/home/administrator/.config/marktext/images/2024-09-28-17-24-50-image.png)
+
+例子： BufferedReader(new FileReader("")
+
+- 被装饰的是 FileReader();         //节点流
+
+- 装饰者： BufferedReader();    //也就是 它是 处理流
+
+
+
+
+
+###### 避免类泛滥，应该有一个 抽象的装饰者。
+
+- 后续的扩展，extends 这个抽象类（是所有装饰器的父类）
+
+- 父类：
+
+![](/home/administrator/.config/marktext/images/2024-09-28-18-42-49-image.png)
+
+- 子类：装饰者：
+
+     ![](/home/administrator/.config/marktext/images/2024-09-28-18-47-54-image.png)
+
+- 使用：
+
+![](/home/administrator/.config/marktext/images/2024-09-28-19-17-46-image.png)
+
+##### 装饰器对象图
+
+![](/home/administrator/.config/marktext/images/2024-09-28-18-59-44-image.png) 
 
 ------
 
@@ -812,8 +954,161 @@ Scanner scanner = new Scanner(System.in);//控制台获取输入
 
 ### 压缩and解压流
 
-### 字节数组流
+> java.util.zip.*;
+
+##### GZIPOutputStream  --> 压缩：xxx.gz
+
+> ZipOutputStream ---> xxx.zip
+
+```java
+package com.wuzhongpeng.iostream.gzipxxxstream;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.zip.GZIPOutputStream;
+import java.io.IOException;
+
+public class GZipOutputStreamTest {
+    public static void main(String[] args) {
+        String fileName = "~/my/learnSpace/computer-science/BackEnd-java/Java-Pot/basics-java/java-SE/exercise-java/io/reader_writer_copy.txt";
+        try(GZIPOutputStream gzip = new GZIPOutputStream(new FileOutputStream("./test00002.gz"));//GZIPOutputSTream()也是包装处理流... 被装饰的FileOutputStream("压缩包文件名")
+            FileInputStream in = new FileInputStream(fileName)  //需要被压缩的文件 ，读取文件，然后放入buffer...
+        ){
+            byte[] buffer = new byte[1024];
+            int readCount ;
+            while((readCount = in.read(buffer)) !=-1){
+                gzip.write(buffer,0,readCount);
+            }
+            System.out.println("success");
+        }catch(IOException e){
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+    }
+}
+
+```
+
+##### GZIPInputStream  --> 解压...
+
+```java
+//解压文件：
+
+package com.wuzhongpeng.iostream.gzipxxxstream;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.zip.GZIPInputStream;
+
+public class GzipInputStreamTest {
+    public static void main(String[] args) {
+        String fileName = "/home/administrator/IdeaProjects/PowerByte-java/test00002.gz";  //x选择指定压缩文件地址
+        String xzipFile = "/home/administrator/IdeaProjects/PowerByte-java/node01/src/com/wuzhongpeng/iostream/gzipxxxstream/test.txt"; //选择压缩文件解压后的文件地址
+        try(GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(fileName));
+            FileOutputStream fos = new FileOutputStream(xzipFile)){
+            
+            byte[] buffer = new byte[1024];
+            int readCount;
+            while((readCount = gzip.read(buffer)) != -1){
+                fos.write(buffer,0,readCount);
+                fos.flush();
+                System.out.println(">>> success");
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+    }
+}
+
+```
+
+### 字节数组流（内存流--节点流）
+
+> 字节数组流通常都是包装后使用(处理流包裹节点流)
+
+![](/home/administrator/.config/marktext/images/2024-09-28-20-25-53-image.png)
+
+> 不和外界（磁盘，网络）操作
+> 
+> - 只是内存里操作
+
+##### ByteArrayOutputStream()
+
+写： 往内存中的 字节数组里写入
+
+
+
+- 构造方法：
+
+   ![](/home/administrator/.config/marktext/images/2024-09-28-20-41-44-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-09-28-20-40-40-image.png)
+
+> so 内部定义了byte[]数组...
+
+---
+
+- 存和取操作：
+  
+  - ByteArrayOutputStream baos = new ByteArrayOutputStream( 空参 );
+  
+  - .write()
+  
+  - .toByteArray(); @return byte[]
+
+![](/home/administrator/.config/marktext/images/2024-09-28-20-43-04-image.png)
+
+
+
+
+
+- 可以当 被装饰者，被处理流包装起来
+  
+  ```java
+  ObjectOutputStream oos = new ObjecetOutputStream(new ByteArrayOutputStream());
+  ```
+
+
+
+- 包装（装饰）的作用： 使得被包装（被装饰）的流具有更多的操作功能（使用装饰-包装流的方法...）
+
+![](/home/administrator/.config/marktext/images/2024-09-28-21-20-18-image.png)
+
+> ByteArrayOutputStream 使用了包装流ObjectOutputStream的.writerType();方法........
+
+
+
+##### ByteArrayInputStream(byte[] buffer)
+
+读： 在内存中的 字节数组 读取
+
+![](/home/administrator/.config/marktext/images/2024-09-28-21-23-56-image.png)
+
+---
+
+
 
 ### 对象克隆
 
 - 深浅...克隆...
+
+克隆也就是 将对象在复制一份出来（深克隆是地址的地址也是跟着复制...）,这样，在操作修改的内容不会影响到原来的对象（不是同一个指向，直接赋值得到的对象其实是指向同一地址，所以会修改原内容...）
+
+- main.java
+
+![](/home/administrator/.config/marktext/images/2024-09-28-21-33-25-image.png)
+
+> 修改内容时： 只会对本对象有效，因为不是同一指向的地址
+
+- user.java
+
+> 使用 ObjectOutputStream 就需要序列化... implements Serializable 接口
+
+![](/home/administrator/.config/marktext/images/2024-09-28-21-34-11-image.png)
+
+- address.java
+
+![](/home/administrator/.config/marktext/images/2024-09-28-21-35-43-image.png)

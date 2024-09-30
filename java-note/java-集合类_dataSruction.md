@@ -1150,13 +1150,15 @@ public class MapIterator{
 > 
 > - 主要用于 IO流
 > 
+> - Key 唯一
+> 
 > - 使用：
 >   
->   1.setProperty() ； 底层就是 put();方法
+>   1.**set**Property() ； 底层就是 put();方法
 >   
 >   ![](/home/administrator/.config/marktext/images/2024-09-22-22-10-58-image.png)
 >   
->   2. getProperty();
+>   2. **get**Property();
 >   
 >   ![](/home/administrator/.config/marktext/images/2024-09-22-22-14-09-image.png)
 > 
@@ -1164,9 +1166,9 @@ public class MapIterator{
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-22-22-16-21-image.png)
 > 
-> > 同专属迭代器：使用propertyNames()
+> > 同<mark>专属迭代器</mark>：使用**propertyNames**()
 > > 
-> > - 结合 hasMoreElements()  + nextElement() 一起使用
+> > - 结合 hasMoreElements()  + nextElement()一起使用,返回值类型    ： Enumeration<?>
 > > 
 > > ![](/home/administrator/.config/marktext/images/2024-09-22-22-17-34-image.png)
 > > 
@@ -1175,6 +1177,8 @@ public class MapIterator{
 > > - 要想获取全部value的方式：
 > > 
 > > ![](/home/administrator/.config/marktext/images/2024-09-22-22-20-27-image.png)
+> > 
+> > 
 
 - 小结：
 
