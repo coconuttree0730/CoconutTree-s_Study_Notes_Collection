@@ -1,5 +1,15 @@
 # 异常处理
 
+> ***当程序出现异常，<mark>会结束程序执行</mark>，并抛出异常信息...
+> 
+>    BUT:使用 try-catch处理之后，程序的后续代码还会继续执行...!!!
+
+
+
+---
+
+
+
 > 所有的异常类都是继承 Throwable (接口)
 > 
 >                               **Throwable**
@@ -27,8 +37,6 @@
     1.有参数: MyException("message ...")
     
     2.无参数：MyException( );
-
-
 
 - <mark>使用</mark>：
   
