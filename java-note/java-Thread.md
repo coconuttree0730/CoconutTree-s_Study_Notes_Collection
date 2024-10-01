@@ -225,7 +225,7 @@ Thread.State
 
 -------
 
-##### .sleep()的使用
+##### .sleep(); 的使用
 
 > sleep的功能就是让<u>当前线程</u> 进行 有限时间(超时)等待...
 
@@ -289,7 +289,7 @@ public class PrintDot{
 
 ![](/home/administrator/.config/marktext/images/2024-10-01-19-59-12-image.png)
 
-##### .interrupt();
+##### .interrupt();  //直接将线程终止...
 
 > 终止 <mark>调用对象的</mark> 线程！：谁调用的终止谁的睡眠
 
@@ -304,3 +304,136 @@ thread.interrupt();//sleep()是要捕获异常的，
 ```
 
 有睡眠，想把正在睡觉中的线程提前叫醒：<mark>.interrupt( ); </mark> //实例方法...
+
+
+
+
+
+##### ~~.stop():暂停当前调用的线程~~
+
+- 使用一个标志属性 来控制！！
+
+> 过时了
+> 
+> - stop() 的作用：强行终止线程(还没保存的文件直接丢失！！！)
+> 
+> - 取代方式（更好的方式：<mark>使用 属性，通过标志flag的boolean</mark>来决定要不要执行sleep...）
+> 
+> ```java
+> //使用打标志，来实现stop： 在main主线程修改标志的值
+> 
+> 
+> 
+> //thread-1:
+> public class MyRunnable implements Runnable{
+>     boolean runFlag = true;//flag !!!！！！！！！！！！！！！！！！！！！！
+>     @Override 
+>     public void run(){
+>         for(int i = 0; i< 18; i++){
+>             if(runFlag){
+>                 System.out.println(Thread.currentThread().getName() + "---> " + i);
+>                 try{
+>                     Thread.sleep(1000);
+>                 }catch(InterruptedException e){
+>                     e.printStackTrace();
+>                     System.out.println("open interrupt ...");
+>                  }
+>             }else{
+>                 return;//释放线程压入的run方法
+>             }
+>         }
+>     }
+> }
+> 
+> 
+> // main-thread:
+> package com.thread;
+> public class SleepTimesThread{
+>     public static void main(String[] args){
+>         MyRunnable runnable = new MyRunnable();
+>         Thread thread = new Thread(runnable);
+>         thread.start();
+>         try{
+>             Thread.sleep(2000); //2秒后main线程休眠
+>         }catch(Exception e){
+>             e.printStackTrace();
+>         }
+>         runnable.runFlag = false;//2秒后苏醒，执行到该语句：将其关闭
+>     }
+> 
+> 
+> }
+> 
+> ```
+
+
+
+#### 守护线程：
+
+> 线程有两种： 用户线程、守护线程
+
+- 特点：
+  
+  - 所有【用户线程】结束后，【守护线程】也会<mark>自动</mark>（无手动销毁动作）结束
+  
+  - GC线程就是一个经典的守护线程
+
+- 守护线程的用途：
+  
+  - 数据库的定时备份
+
+##### 如何设置  - 守护线程
+
+```java
+threadObj.setDaemon(true);
+```
+
+- 守护线程的run方法体一般都是 while(true){}...无限循环，保持后台一直监听...
+
+![](/home/administrator/.config/marktext/images/2024-10-01-22-35-36-image.png)
+
+---
+
+
+
+#### 定时器(守护线程的方式)：Timer （了解即可...）
+
+- Timer timer = new Timer(true);  //本质就是一个线程，加上true参数，就是守护线程
+
+> Spring 框架 有实现定时功能...SpringTask（包装了java.util.Timer/java.util.TimerTask）
+
+- java.util.Timer;
+
+- java.util.TimerTask;
+
+
+
+![](/home/administrator/.config/marktext/images/2024-10-01-22-36-59-image.png)
+
+> ![](/home/administrator/.config/marktext/images/2024-10-01-23-07-28-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-10-01-22-37-18-image.png)
+
+> 使用jdk提供的定时器：取代使用 Thread.sleep()来进行定时的操作
+
+
+
+```java
+Timer timetor = new Timer(true);
+
+
+timetor.schedule(new LogTimerTask(),new Date,1000); //从当前时间，每隔一秒执行LogtimerTask()；
+//LogTimrTask()是需要实现TimerTask的抽象类的
+```
+
+![](/home/administrator/.config/marktext/images/2024-10-01-23-18-16-image.png)
+
+![](/home/administrator/.config/marktext/images/2024-10-01-23-19-14-image.png)
+
+---
+
+也可使用“匿名内部类”的方式：实现 abstract  TimerTask()的 run（Override）：
+
+![](/home/administrator/.config/marktext/images/2024-10-01-23-22-30-image.png)
+
+     
