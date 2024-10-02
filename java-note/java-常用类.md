@@ -19,13 +19,16 @@
 >     ```java
 >     String str1 = "hello";
 >     String str2 = "world";
+>     String strCat = "hello" + "world"  //"helloworld" 常量池
 >     String str3 = str1 + str2;//底层是  StringBulider 类（使用 “+” 号）的时候(“+”号左右有一个是变量的时候)
 >     // str3 指向 堆区，并不指向 常量池
 >     //使用 intern（）,将堆区的“hello world”放入常量池
+>     
 >     String internStr = str3.intern();
 >     
 >     String str4 = "helloworld";
->     System.out.prinln(str3 == str4)//false: 使用拼接成的字符串不会放入常量池
+>     System.out.println(str3 == str4)//false: 使用拼接成的字符串不会放入常量池
+>     System.out.println(internStr == str4) //true
 >     ```
 >     
 >     String name = "wu"  + "zhongpeng"; //编译阶段就： String name = “wuzhongpeng";运行阶段写入到池里的就是“wuzhongpeng”e
@@ -45,30 +48,30 @@
 ![](/home/administrator/.config/marktext/images/2024-08-22-22-47-53-image.png)
 
 ```java
-String name = new String("zhangshan");   //[不推荐了] **********---
+String name = new String("zhangshan");   //[不推荐了：] **********---
 ```
 
-#### string - construction
+#### String 构造器(用法)：
 
 ```java
 char[] chars = new char[]{'h','e','l','l','o'};
 String strChar = new String(chars,0,2);//“从0位置开始，取两个长度输出”
 String strChar = new String(chars);
 
-
+//----------------------------------------------------------------
 byte[] buffer = new byte[]{32,45,32,1,244};
 String strByte = new String(buffer);
-String strByte = new String(buffer,2,2);//frist: , to: .
+String strByte = new String(buffer,2,2);//从下标2(0下标开始)的位置开始读两个
 ```
 
 - 乱码：
 
 ```java
-byte[] str = “hello,world”.getByte("GBK");
+byte[] str = “hello,world”.getByte("GBK");  //编码
 
-String str2 = new String(str,"UTF-8");
+String str2 = new String(str,"UTF-8"); //解码
 //"天下足球".getBytes(StandardCharsets.UTF_8);
-//StandardCharsets.UTF_8 == "UTF-8"  <=== 常量
+//StandardCharsets.UTF_8 =======> "UTF-8"  <=== 常量
 System.out.println(str2);
 ```
 
@@ -80,15 +83,13 @@ System.out.println(str2);
         System.out.println(defaultCharset);
 ```
 
-String - function
+#### String 常用方法：
 
-- 常用方法
-  
-  - “find“
+- - “find“
 
 ![](/home/administrator/.config/marktext/images/2024-08-22-22-57-45-image.png)
 
-- - 截取：.substring(end) //默认0下标开始
+- - 截取：.substring(end-index) //默认0下标开始
     
     ![](/home/administrator/.config/marktext/images/2024-08-22-23-17-14-image.png)
     
@@ -96,7 +97,7 @@ String - function
 
   
 
-    中间截取：（substring(begin,end)）
+    中间截取：（substring(begin-index,end-index）
 
 ![](/home/administrator/.config/marktext/images/2024-08-22-23-19-21-image.png)
 
@@ -107,10 +108,12 @@ String - function
 - <mark>StringBuffe</mark>r(线程安全)：出现的比Stringbuilder早
   
   > 保障安全必定耗时作安全处理（效率低）
+  > 
+  > - 处理并发场景适合StringBuffer
 
 - Stringbuilder
   
-  > 效率高；适合不处理 并发处理的场景
+  > 效率高；适合   不处理 并发处理的场景
 
 ### StringBuilder  VS   String  (大数据量处理性能pk)：
 
@@ -120,11 +123,10 @@ public class strCat_string{
 
         long start =  System.currentTimeMillis();
 
-        //StringBuilder sb = new StringBuilder();
-        String str = "";
+        //String str = "";
+        String sre = new String("");
         for(int i=0;i<100000;i++ ){
-            //sb.append(i);//append(int);//@Overload
-            str += i;
+            str += i;  //加到字符常量池
         }
 
         long end  =  System.currentTimeMillis();
@@ -137,11 +139,9 @@ public class strCat_string{
 ```java
 public class strCat_stringbuilder{
     public static void main(String[] args) {
-
         long start =  System.currentTimeMillis();
 
         StringBuilder sb = new StringBuilder();
-
         for(int i=0;i<100000;i++ ){
             sb.append(i);//append(int);//@Overload
         }
@@ -167,13 +167,14 @@ public class strCat_stringbuilder{
     Integer it = new Integer(12);//过时了：同String的  new String("XXX");
     
     int xxx = 42;
-    Integer numToIneger = 12;   
+    Integer numToIneger = 12;   //默认装箱（语法糖）
     //or 
      Integer numToIneger_2 = Integer.valueOf(xxx);
     //新的赋值方式  也就是 【装箱】过程
     
-    int num  = it_new.intValue();// num ===>  12  //【拆箱】
-    double integerTodouble = it_new.doubleValue();
+    int num  = it.intValue();// num ===>  12  //【拆箱】
+    Double itDouble = Double.valueOf(23.3434);
+    double db = itDouble.doubleValue();
     //float xxx = ...floatValue();
     ```
 
@@ -193,22 +194,24 @@ public class strCat_stringbuilder{
   >   // xx == yy : true
   >   ```
 
-##### 常用方法：
+#### 常用方法：
 
-- parseInt();
-  
-  ```java
-  String inputNum = scanner.next(); 
-  int number = Ineger.parseInt(inputNum)
-  //parseInt ====> C#: ConvertInt32(inputNum);
-  ```
-  
-  ```java
-  String str = Integer.toString(10086);//"10086"
-  //or 
-  Integer num = 666;
-  String str_2 = String.valueOf(num);
-  ```
+###### parseInt(string);
+
+```java
+String inputNum = scanner.next(); 
+int number = Integer.parseInt(inputNum)
+//parseInt ====> C#: ConvertInt32(inputNum);
+```
+
+###### toString(number)
+
+```java
+String str = Integer.toString(10086);//"10086"
+//or 
+Integer num = 666;
+String str_2 = String.valueOf(num);
+```
 
 #### 类型转换(图)：
 
@@ -226,8 +229,8 @@ public class strCat_stringbuilder{
   Integer x = 10000;//boxing : I
   int y = x;
   ```
-
-- 大 数字处理(整数)：
+  
+  ###### 大 数字处理(整数)：java.math.BigInterager;
   
   ```java
   long l = 9999999999999999999999L; //[X]
@@ -236,8 +239,8 @@ public class strCat_stringbuilder{
   bi.add(23)//  23 + 99999999999999999999999999999    
   // ....
   ```
-
-- 大数字（浮点）: java.math.BigInteger;
+  
+  ###### 大数字（浮点）: java.math.BigDecimal;
   
   ```java
   double b = 9999999999999999999999.99999   //【X】
@@ -248,8 +251,8 @@ public class strCat_stringbuilder{
    //1234567.89
    bmal.add("23"); //1234567.89 + 23
   ```
-
-- 数字 格式化（ DecimalForm ）
+  
+  ###### 数字 格式化（ DecimalForm ）
 
 > import java.text.DecimalFormat; //导入包
 
@@ -270,7 +273,7 @@ df.format(13432.2); //13,432.2000
 ```java
 Date date = new Date();
 //Sun Aug 25 00:27:23 CST 2024
-//等同于： System.currentTimeMillis();
+//等同于： System.currentTimeMillis();  时间戳
 
 long times = 1000;
 Date date = new Date(times)
@@ -312,11 +315,11 @@ import java.util.Calendar;
 public class calendar{
     public static void main(String[] args) {
 
-         Calendar cal = Calendar.getInstance();
+         Calendar cal = Calendar.getInstance(); //工厂模式...
          System.out.println(cal);
 
          System.out.println("---------------------");
-
+    
          System.out.println(cal.get(Calendar.YEAR));
          System.out.println(cal.get(Calendar.MONTH));
          System.out.println(cal.get(Calendar.DAY_OF_MONTH));                
@@ -328,34 +331,43 @@ public class calendar{
  }
 ```
 
-### java-8 （Date-Time）新特性
 
-> 目的：线程安全(纳秒级)
+
+-------
+
+
+
+
+
+### [***]:  (Date-Time) java-8新特性
+
+> 目的：线程安全(<mark>纳秒级</mark>)
 
 > improt java.<mark>time</mark>.XXX;
 
-##### (1)LocalDataTime()
+##### (1) LocalDataTime(); 获取时间，纳秒级别
 
 ###### .now()
 
 ```java
 //获取当前时间(纳米)：
-jshell> LocalDateTime now = LocalDateTime.now()
-now ==> 2024-08-26T23:08:57.670603005
-//毫秒级：jshell> System.currentTimeMillis()
+LocalDateTime now = LocalDateTime.now()
+// >>>   2024-08-26T23:08:57.670603005
+
+//毫秒级：Date now = new Date();
 //        $4 ==> 1724685119760
 ```
 
 ###### .of("y",'M',"d","h","m",'s','nanos');
 
 ```java
-jshell> LocalDateTime now = LocalDateTime.of(2021,9,1,23,59,59,1)
-now ==> 2021-09-01T23:59:59.000000001
+jshell>       LocalDateTime now = LocalDateTime.of(2021,9,1,23,59,59,1)
+now ==>       2021-09-01T23:59:59.000000001
 ```
 
 ###### 修改时间-日期：
 
-- plusXXX() //加（可链式调用）
+- plusXXX() //<mark>加</mark>（可链式调用）
 
 ```java
 // plus
@@ -374,7 +386,7 @@ jshell>  LocalDateTime alter = now.plusYears(2).plusMinutes(34)
 alter ==> 2023-09-02T00:33:59.000000001
 ```
 
-##### (2)时间戳：
+##### (2)时间戳：纳秒级
 
 ```java
 jshell> Instant  timesamp  = Instant.now()
@@ -399,6 +411,11 @@ times ==> 1724685960549
 #### (5)数学类：Math
 
 ![](/home/administrator/.config/marktext/images/2024-08-26-23-35-21-image.png)
+
+```java
+Math.random() * 100;  // 0 ~ 100
+int randomNum = (int)(Math.random() * 100);
+```
 
 #### (6)enum（引用数据类型）
 
@@ -520,3 +537,5 @@ String s = uuid.toString();
 String handle = s.replace("-","");
 // handle: "e05563d2d0954e2b8c07a7090738603f"
 ```
+
+---
