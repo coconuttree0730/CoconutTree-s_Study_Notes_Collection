@@ -16,7 +16,7 @@
 
 > .start() 会开启一个新的栈,在新的线程栈压入 run方法，在这个线程运行该程序...；然后主线程main就把 压入的 start方法pop出去了。
 
-#### 线程的(创建)实现方式：
+#### 线程的(创建)实现方式：4种
 
 ##### 1. extends Thread  (和线程有血缘关系：is thread...)
 
@@ -138,6 +138,98 @@ public class MyRunnable implements Runnable{
         }
     }
 }
+```
+
+##### 3.Callable : 线程可返回值
+
+> 可通过 xxx.get();获取线程返回值;
+> 
+> .get(); 和 join(  ) 很像，会堵塞主线程，等它执行完毕才唤醒主线程继续往下执行
+
+```java
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.Callable;
+public class CreateCallableThread{
+    public static void main(String[] args){
+         FutureTask<String> task = new FutureTask<>(new Callable<String>(){
+
+            @Override
+            public String call()throws Exception {
+                String lastName = "wu";
+                String firstName = "zhongpeng";
+
+                return lastName + firstName ;
+            } 
+         });
+
+         Thread thread = new Thread(task);
+         thread.start();
+         try{
+            String getName = task.get(); //获取线程返回值；有异常so要捕获
+            System.out.println(Thread.currentThread().getName() + "call return String text is :" + getName);
+         }catch(Exception e){
+            System.out.println(e.getMessage());
+         }
+    }
+
+}
+╭─
+```
+
+##### 4.线程池：executorService;
+
+###### 1.
+
+```java
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public static void concurrentPrinting(){
+        int threadCount = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        executorService.submit(new Runnable(){
+            @Override
+            public void run(){
+                for(int i = 0 ; i< 100 ; i++){
+                    System.out.println(Thread.currentThread().getName() + "--> " + i);
+                    }
+            }
+});
+        executorService.shutdown();
+
+    }
+}
+```
+
+###### 2.
+
+```java
+ import java.util.concurrent.ExecutorService;
+ import java.util.concurrent.Executors;
+
+          public static void concurrentPrinting(){
+        int threadCount = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        for(int i = 0; i < threadCount ; i++){
+            executorService.execute(()->{
+                Singleton singleton = Singleton.getInstance(); 
+                System.out.println(singleton);
+            });
+        }
+        executorService.shutdown();
+
+    }
+}
+
+
+
+ /**
+ *  ExecutorService
+ *  Executors.newFixedThreadPool()
+ *  instance.shutdown()
+ *  instance.submit();
+ *
+ */
 ```
 
 ##### 线程方法：
@@ -617,15 +709,9 @@ Thread.yield(); //和sleep一样，放到哪里，哪个线程就让位
 > 
 > - 不加锁，多个线程各自干各自的，是 “线程异步机制-也就是 线程并发” ---<mark>效率</mark>
 
-
-
-
-
 - 实例变量 和 静态变量都有 线程安全问题
 
 ---
-
-
 
 #### 线程同步机制： synchronized
 
@@ -689,7 +775,7 @@ class  Account{  //共享的类
     public String  getActno(){
         return this.actNo; 
     }
-    
+
     public double getBalance(){
         return this.balance;
     }
@@ -708,7 +794,7 @@ class  Account{  //共享的类
         this.setBalance(before - money);
         //this.balance = this.balance - money;
         System.out.println(Thread.currentThread().getName() + "取钱成功，当前余额 ：" +  this.getBalance());
-        
+
     }
 */
 
@@ -717,18 +803,15 @@ class  Account{  //共享的类
         synchronized(this){ //找共享对象：关键；得是线程对象共享
                     double before = this.getBalance();//获取当前的余额
                     System.out.println(Thread.currentThread().getName() + "正在取钱，当前" + this.getActno()  + "的余额 ：" +  before);
-        
+
                     this.setBalance(before - money);
                     //this.balance = this.balance - money;
                     System.out.println(Thread.currentThread().getName() + "取钱成功，当前余额 ：" +  this.getBalance());
         }
     }
-    
+
 }
-
 ```
-
-
 
 ###### 类锁：
 
@@ -739,3 +822,80 @@ static synchornized : 对同一类上锁
 ![](/home/administrator/.config/marktext/images/2024-10-02-23-19-42-image.png)  
 
 > 这个实例虽然有两个对象，但是是同一个类；所以是同步的，需要等待
+
+###### 单例模式-synchronized 实现： 双重校验锁
+
+```java
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+//--------------------------------------------------------------------
+public class SingletonTest{
+
+    public static void main(String[] args){
+      // Singleton s1 = Singleton.getInstance(); 
+      // Singleton s2 = Singleton.getInstance(); 
+      // System.out.println(s1 == s2);
+      // System.out.println(s2);
+      // System.out.println(s1);
+         concurrentPrinting(); //使用线程池创建线程
+    }
+
+    public static void concurrentPrinting(){
+        int threadCount = 10;
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        for(int i = 0; i < threadCount ; i++){
+            executorService.execute(()->{
+                Singleton singleton = Singleton.getInstance(); 
+                System.out.println(singleton);
+            });
+        }
+        executorService.shutdown();
+
+    }
+}
+//------------------------------------------------------------------
+
+
+
+//单例模式 - 使用了 synchronized 做锁   -------------------------------
+class Singleton{
+    private static volatile Singleton singleton = null;
+    private Singleton(){}
+    public static Singleton getInstance(){
+        if(singleton == null){
+            synchronized(Singleton.class){
+                if(singleton == null){
+                    singleton = new Singleton(); 
+                }
+            }
+        }
+        return singleton;
+    }
+}
+```
+
+#### 线程同步的新方式： ReentrantLock （可重入锁）
+
+- lock() //上锁
+
+- unlock()//解锁
+
+- 实现：
+
+```java
+import java.util.concurrent.locks.ReentrantLock;
+...
+
+private static final ReentrantLock lock = new ReentrantLock();/
+
+
+lock.lock();
+...原子操作：
+lock.unlock();
+```
+
+#### 锁总结：
+
+- synchronized : 对象锁
+
+- ReentrantLock : lock() ; unlock() ：互斥锁(可重入锁 )

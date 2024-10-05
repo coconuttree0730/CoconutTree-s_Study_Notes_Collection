@@ -33,6 +33,7 @@
 > :vs <filename>   
 > 
 > （<ctrl>  w ）+  跳窗(hjkl)   :  实现多个窗口间跳转
+> // <^C + W>
 
 #### tab
 
