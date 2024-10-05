@@ -420,14 +420,6 @@ public class BufferReaderTest{
 
 -----------
 
-
-
-
-
-
-
-
-
 ### <mark>转换流</mark>（InputStreamReader   \   OutputStreamWriter）
 
 [字节流]  ———转换流———> [字符流]
@@ -490,7 +482,6 @@ public class InputStreamReaderTest{
 
 ```java
 //...
-
 ```
 
 ------------
@@ -842,10 +833,6 @@ Scanner scanner = new Scanner(System.in);//控制台获取输入
   
   ![](/home/administrator/.config/marktext/images/2024-09-28-15-49-49-image.png)
 
-
-
-
-
 ###### 使用Reader 或 FileOutputStream 获取 properties配置文件的信息
 
 - 方式一 ： load :<mark>加载</mark>
@@ -866,31 +853,15 @@ Scanner scanner = new Scanner(System.in);//控制台获取输入
 > 
 >     ![](/home/administrator/.config/marktext/images/2024-09-28-16-15-34-image.png)
 
-
-
 ---
 
     
-
-
-
-
-
-
-
-
-
-
-
-
 
 ### 装饰器：（设计模式）
 
 io流设计到大量的装饰器
 
 - 就是包装；就是io里的包装(处理)流
-
-
 
 ![](/home/administrator/.config/marktext/images/2024-09-28-17-10-44-image.png)
 
@@ -924,10 +895,6 @@ io流设计到大量的装饰器
 
 - 装饰者： BufferedReader();    //也就是 它是 处理流
 
-
-
-
-
 ###### 避免类泛滥，应该有一个 抽象的装饰者。
 
 - 后续的扩展，extends 这个抽象类（是所有装饰器的父类）
@@ -937,8 +904,8 @@ io流设计到大量的装饰器
 ![](/home/administrator/.config/marktext/images/2024-09-28-18-42-49-image.png)
 
 - 子类：装饰者：
-
-     ![](/home/administrator/.config/marktext/images/2024-09-28-18-47-54-image.png)
+  
+      ![](/home/administrator/.config/marktext/images/2024-09-28-18-47-54-image.png)
 
 - 使用：
 
@@ -987,7 +954,6 @@ public class GZipOutputStreamTest {
         }
     }
 }
-
 ```
 
 ##### GZIPInputStream  --> 解压...
@@ -1007,7 +973,7 @@ public class GzipInputStreamTest {
         String xzipFile = "/home/administrator/IdeaProjects/PowerByte-java/node01/src/com/wuzhongpeng/iostream/gzipxxxstream/test.txt"; //选择压缩文件解压后的文件地址
         try(GZIPInputStream gzip = new GZIPInputStream(new FileInputStream(fileName));
             FileOutputStream fos = new FileOutputStream(xzipFile)){
-            
+
             byte[] buffer = new byte[1024];
             int readCount;
             while((readCount = gzip.read(buffer)) != -1){
@@ -1022,7 +988,6 @@ public class GzipInputStreamTest {
 
     }
 }
-
 ```
 
 ### 字节数组流（内存流--节点流）
@@ -1038,8 +1003,6 @@ public class GzipInputStreamTest {
 ##### ByteArrayOutputStream()
 
 写： 往内存中的 字节数组里写入
-
-
 
 - 构造方法：
 
@@ -1061,25 +1024,17 @@ public class GzipInputStreamTest {
 
 ![](/home/administrator/.config/marktext/images/2024-09-28-20-43-04-image.png)
 
-
-
-
-
 - 可以当 被装饰者，被处理流包装起来
   
   ```java
   ObjectOutputStream oos = new ObjecetOutputStream(new ByteArrayOutputStream());
   ```
 
-
-
 - 包装（装饰）的作用： 使得被包装（被装饰）的流具有更多的操作功能（使用装饰-包装流的方法...）
 
 ![](/home/administrator/.config/marktext/images/2024-09-28-21-20-18-image.png)
 
 > ByteArrayOutputStream 使用了包装流ObjectOutputStream的.writerType();方法........
-
-
 
 ##### ByteArrayInputStream(byte[] buffer)
 
@@ -1088,8 +1043,6 @@ public class GzipInputStreamTest {
 ![](/home/administrator/.config/marktext/images/2024-09-28-21-23-56-image.png)
 
 ---
-
-
 
 ### 对象克隆
 
