@@ -4,11 +4,9 @@
 > 
 >    BUT:使用 try-catch处理之后，程序的后续代码还会继续执行...!!!
 
-
-
 ---
 
-
+- 异常类关系：
 
 > 所有的异常类都是继承 Throwable (接口)
 > 
@@ -26,17 +24,21 @@
 > 
 >   IOE... ...                     <mark> uncheckException</mark>
 
+---
+
+
+
 ## 异常产生/抛出(throws/throw)
 
-- 自<mark>定义</mark>异常类(Class)：
+###### 自定义异常类(Class)：
+
+- extends :  Exception  //自定义的异常类需要使用(继承：<u>extends</u> ) **Exception** 接口...
+
+- 生成构造方法(<mark>要有这两个</mark>)：
   
-  - extends :  Exception  //自定义的异常类需要使用(继承：<u>extends</u> ) **Exception** 接口...
+  1.有参数: MyException("message ...")
   
-  - 生成构造方法(<mark>要有这两个</mark>)：
-    
-    1.有参数: MyException("message ...")
-    
-    2.无参数：MyException( );
+  2.无参数：MyException( );
 
 - <mark>使用</mark>：
   
@@ -66,8 +68,10 @@
   > //........
   > 
   > }
+  
+  ###### 补充：
 
-- 新用法：
+- 新用法：try - with - resource
   
   ```java
   try(//申请资源自动回收处){ 
