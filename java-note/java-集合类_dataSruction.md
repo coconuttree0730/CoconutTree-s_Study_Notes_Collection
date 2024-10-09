@@ -1177,8 +1177,6 @@ public class MapIterator{
 > > - 要想获取全部value的方式：
 > > 
 > > ![](/home/administrator/.config/marktext/images/2024-09-22-22-20-27-image.png)
-> > 
-> > 
 
 - 小结：
 
@@ -1250,6 +1248,10 @@ public class TreeMapDemo{
 > 
 > -------------------------------- 结论： treeMap会排序输出（String 按 ascall码顺序，Integer等整形按 数字大小排序 asc）
 
+
+
+
+
 ###### TreeMap<mark>自定义类</mark>型（非String，Integer...），如何也能进行 排序？？
 
 > 1.使用 compable<T> 实现:会破坏程序结构：适用于固定不变的比较，比如数字间比较
@@ -1264,7 +1266,7 @@ public class TreeMapDemo{
 > 
 > ----
 
-> 2. 使用 Comparator    ： 不会破坏 程序结构（不用在自定义类实现接口  comparable<T>）；<mark>更灵活</mark>
+> 2. 使用 Comparator **<mark>比较器</mark>**    ： 不会破坏 程序结构（不用在自定义类实现接口  comparable<T>）；<mark>更灵活</mark>
 > - 使用 comparator 比较器实现，需要写一个类，实现comprator<T> : 满足ocp原则:重写 **compare()**方法
 > 
 > ![](/home/administrator/.config/marktext/images/2024-09-24-14-04-15-image.png)     
@@ -1285,11 +1287,11 @@ public class TreeMapDemo{
 
 ---
 
-###### TreeMap<T> map = new TreeMap<>(paraments); 源码解析：
+###### TreeMap<T> map = new TreeMap<>(xxx); 源码解析：
 
 ![](/home/administrator/.config/marktext/images/2024-09-24-14-19-09-image.png)
 
-当然没有传入构造器参数是走的 comparable分支...(也就是：内部会找到自定义的实现comparable接口的comparaTo()方法...)
+当然没有传入构造器参数是走的 comparable分支（else分支）...(也就是：内部会找到自定义的实现comparable接口的comparaTo()方法...)
 
 - 当然，可以使用 匿名方式实现：
 
@@ -1299,17 +1301,22 @@ public class TreeMapDemo{
                 return p1.name.compareTo(p2.name);
             }
         });
+  
+  //使用lambda表达式：
+  Map<Persion,Integer> map = new TreeMap<>((p1,p2) -> p1.name.copareTo(p2.name))
 ```
 
 - 小结： 
   
   - [x] TreeMap : key 不能为null
   
-  - [ ] Hashtable ： key 和 value 不能为null
+  - [x] Hashtable ： key 和 value 不能为null
   
-  - [ ] Properties : key value 都不能为空...
+  - [x] Properties : key value 都不能为空...
   
-  - [ ] Collection 的 subClass 的key-value 都可为空
+  
+  
+  - [x] Collection 的 subClass 的key-value 都可为空
   
   - [ ] ...
   
@@ -1362,6 +1369,12 @@ public class TreeMapDemo{
 - 也可以使用 comparator<> 比较器实现...  发现没有，和List的.sort()方法想对自定义类排序是一样的操作，1.要么 实现 comparable<ClassName>,2.要么实现 comparator<ClassName> 比较器：   （传入两个参数）
 
 ![](/home/administrator/.config/marktext/images/2024-09-24-18-33-31-image.png)
+
+- 使用lambda表达式;
+
+```java
+Collections.sort(personList,(p1,p2)->p1.getAge() - p2.getAge());
+```
 
 ###### .shuffle()  洗牌：打乱
 
