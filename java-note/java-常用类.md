@@ -331,13 +331,7 @@ public class calendar{
  }
 ```
 
-
-
 -------
-
-
-
-
 
 ### [***]:  (Date-Time) java-8新特性
 
@@ -417,7 +411,7 @@ Math.random() * 100;  // 0 ~ 100
 int randomNum = (int)(Math.random() * 100);
 ```
 
-#### (6)enum（引用数据类型）
+#### (6)枚举:enum（引用数据类型）
 
 - 继承 ： java.lang.Enum父类，final修饰
   
@@ -429,7 +423,7 @@ int randomNum = (int)(Math.random() * 100);
   
   ---
 
-> piblic enum Season{
+> piblic enum Season{ //最基本的定义方式！
 > 
 >     XXX,
 > 
@@ -451,23 +445,31 @@ int randomNum = (int)(Math.random() * 100);
   
   ###### enum的高级用法：
   
-  1.和类一样：类有的它都有；
+  1.和类一样：类有的它都有（构造器、属性、方法...）；
   
   2.构造方法，enum体内 “new”
   
   ![](/home/administrator/.config/marktext/images/2024-08-26-23-48-18-image.png)
   
-  不使用 new...!
+  给属性赋值：不能使用 new 关键字! 
   
   ![](/home/administrator/.config/marktext/images/2024-08-26-23-48-40-image.png)
   
   > 访问enum的成员： enumName.CONDTNAME.getXXX();
+  > 
+  > - get方法自定义；
 
 - 实现接口的方式：
   
   1. (enum体内)![](/home/administrator/.config/marktext/images/2024-08-26-23-52-20-image.png)
   
   2. （enum常量成员体内）![](/home/administrator/.config/marktext/images/2024-08-26-23-52-52-image.png)
+
+
+
+---
+
+
 
 #### (7)Random
 
