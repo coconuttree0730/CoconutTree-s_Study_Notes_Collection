@@ -98,8 +98,6 @@ toString()         toURI()
 
 ------
 
-
-
 #### UDP | TCP
 
 ##### Socket :套接字
@@ -120,13 +118,7 @@ HTTP <--- socket ---> TCP/UDP
 
 ![](/home/administrator/.config/marktext/images/2024-10-08-22-32-18-image.png)
 
-
-
-
-
 --------
-
-
 
 #### TCP编程
 
@@ -137,12 +129,6 @@ HTTP <--- socket ---> TCP/UDP
 ##### 四次挥手（关闭通道）
 
 ![](/home/administrator/.config/marktext/images/2024-10-09-12-14-14-image.png)
-
-
-
-
-
-
 
 ##### TCP编程概念
 
@@ -164,17 +150,11 @@ HTTP <--- socket ---> TCP/UDP
 
  
 
-
-
 ###### Socket类概述 ：    （客户端要new的类）
 
 ![](/home/administrator/.config/marktext/images/2024-10-09-12-42-16-image.png)
 
 > - 先关闭内部 Input/output流；才能关闭socket流
-
-
-
-
 
 ###### ServerSocket类概述：（服务端要new的类）
 
@@ -187,10 +167,6 @@ HTTP <--- socket ---> TCP/UDP
 > ServerSocket server = new ServerSocket(port);
 > 
 > Socket toClient = server.accept();  //这个对象用于向客户机：getOutputStream() //发消息,还有 toClient.getInputStream();
-
-
-
-
 
 ###### TCP实现-单向数据通信
 
@@ -225,10 +201,7 @@ public class TCPClient {
         }
     }
 }
-
 ```
-
-
 
 - server：
 
@@ -274,17 +247,9 @@ public class TCPSocketServer{
 
         }
   } 
-
-
 ```
 
-
-
 > 先启动 服务器(先监听端口) ；然后 客户端才能发送请求...
-
-
-
-
 
 ###### client ---- server : 循环发消息
 
@@ -298,7 +263,6 @@ public class TCPSocketServer{
                 bw.flush();
                 bw.write("\n");
             }
-
 ```
 
 // 服务端无需改动:
@@ -306,8 +270,6 @@ public class TCPSocketServer{
 > 当前实现： 客户端可多次数发送数据，服务器连接状态能一直读到客户端数据～～～
 > 
 > - 缺陷不足： 客户端停止程序，服务器也停止了...
-
-
 
 ###### TCP实现-双向数据通信
 
@@ -320,8 +282,6 @@ public class TCPSocketServer{
 > - 也就是，客户端 outputStream,服务端 inputStream;
 > 
 > - 服务端 OutputStream , 客户端： InputStream
-
-
 
 - server-end:
 
@@ -386,7 +346,6 @@ public class TCPDuplexServer {
         }
     }
 }
-
 ```
 
 - client-end:
@@ -464,38 +423,23 @@ public class TCPDuplexClient {
         }
     }
 }
-
 ```
 
-
-
 ---
-
-
 
     
 
 #### UDP编程
 
-
-
 ##### UDP编程概念
-
-
 
 - (用户)数据报Socket：
 
 ![](/home/administrator/.config/marktext/images/2024-10-09-21-24-44-image.png)
 
-
-
 - 数据报`包：
 
 ![](/home/administrator/.config/marktext/images/2024-10-09-21-26-32-image.png)
-
-
-
-
 
 ###### UDP编程实例：
 

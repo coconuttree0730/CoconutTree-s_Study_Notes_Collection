@@ -1248,10 +1248,6 @@ public class TreeMapDemo{
 > 
 > -------------------------------- 结论： treeMap会排序输出（String 按 ascall码顺序，Integer等整形按 数字大小排序 asc）
 
-
-
-
-
 ###### TreeMap<mark>自定义类</mark>型（非String，Integer...），如何也能进行 排序？？
 
 > 1.使用 compable<T> 实现:会破坏程序结构：适用于固定不变的比较，比如数字间比较
@@ -1301,7 +1297,7 @@ public class TreeMapDemo{
                 return p1.name.compareTo(p2.name);
             }
         });
-  
+
   //使用lambda表达式：
   Map<Persion,Integer> map = new TreeMap<>((p1,p2) -> p1.name.copareTo(p2.name))
 ```
@@ -1313,12 +1309,10 @@ public class TreeMapDemo{
   - [x] Hashtable ： key 和 value 不能为null
   
   - [x] Properties : key value 都不能为空...
-  
-  
-  
-  - [x] Collection 的 subClass 的key-value 都可为空
-  
-  - [ ] ...
+
+- [x] Collection 的 subClass 的key-value 都可为空
+
+- [ ] ...
   
   ![](/home/administrator/.config/marktext/images/2024-09-24-15-13-41-image.png)
   
